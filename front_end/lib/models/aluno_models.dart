@@ -1,6 +1,4 @@
 
-import 'dart:convert';
-
 class Curso{
   int id;
   String titulo;

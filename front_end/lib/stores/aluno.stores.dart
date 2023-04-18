@@ -20,21 +20,23 @@ abstract class _AlunoStores with Store {
 
 
   @action
-  Future<void> getAluno() async{
+  Future<void> getAluno(String token) async{
     
-    String url = "http://10.0.0.15:8000/alunos/1/";
+    String url = "http://10.0.0.15:8000/aluno-list/";
 
-    http.Response response = await http.get(Uri.parse(url));
+    var headers={"Authorization": "Token ${token}"};
+
+    http.Response response = await http.get(Uri.parse(url),headers: headers);
 
     var responseData = json.decode(utf8.decode(response.bodyBytes));
     
-    curso = Curso.fromJson(responseData["curso"]);
-    user = User.fromJson(responseData["user"]);
+    curso = Curso.fromJson(responseData[0]["curso"]);
+    user = User.fromJson(responseData[0]["user"]);
 
     aluno = Aluno(
-      id: responseData["id"], 
-      nome: responseData["nome"], 
-      dataNascimento: DateTime.parse(responseData["data_nascimento"]),
+      id: responseData[0]["id"], 
+      nome: responseData[0]["nome"], 
+      dataNascimento: DateTime.parse(responseData[0]["data_nascimento"]),
       curso: curso!,
       user: user!,
     );

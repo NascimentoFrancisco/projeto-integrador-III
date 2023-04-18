@@ -1,7 +1,8 @@
 
 import 'package:access_control/pages/reset_password/reset_password.dart';
-import 'package:access_control/pages/user_page/home_page.dart';
+import 'package:access_control/pages/user_page/home_user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../colors/cores_padroes.dart';
 import '../../stores/aluno.stores.dart';
@@ -16,6 +17,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  TextEditingController matriculaController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: 30,
                           ),
                           TextField(
+                            controller: matriculaController,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: textoBrancoPadrao,
@@ -90,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: 30,
                           ),
                           TextField(
+                            controller: senhaController,
                             obscureText: true,
                             decoration: InputDecoration(
                               filled: true,
@@ -144,10 +151,19 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               ElevatedButton(
                                 onPressed: () async {
-                                  Navigator.push(context,
-                                    MaterialPageRoute(builder: ((context) => const UserPage()))
-                                  );
-                                  await alunoStores.getAluno();
+
+                                  bool log = await loginStores.efetuaLogin(matriculaController.text, senhaController.text);
+
+                                  if (log){
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.push(context,
+                                      MaterialPageRoute(builder: ((context) => const HomeUser()))
+                                    );
+                                  } else {
+                                    // ignore: use_build_context_synchronously
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  }
+                                  
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color.fromARGB(255, 4, 57, 170),
@@ -176,4 +192,17 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  var snackBar = SnackBar(
+    content: Observer(builder: (_) => Text(loginStores.messege,
+      style: const TextStyle(color: Colors.white),
+    ),),
+    backgroundColor: Colors.redAccent,
+    action: SnackBarAction(
+      label: 'Fechar',
+      textColor: Colors.black,
+      onPressed: (){},
+      ),
+  );
+
 }

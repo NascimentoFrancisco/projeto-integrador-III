@@ -1,9 +1,10 @@
 
-import 'package:access_control/pages/login/login.dart';
+import 'package:access_control/pages/user_page/home_user.dart';
 import 'package:access_control/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
 import '../../colors/cores_padroes.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,10 +54,10 @@ class _HomePageState extends State<HomePage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
-                            onPressed: (){
+                            onPressed: () async {
                               Navigator.push(context,
-                                MaterialPageRoute(builder: ((context) => const LoginPage()))
-                              );
+                                MaterialPageRoute(builder: ((context) => const HomeUser()))
+                              );  
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: azulBotaoSucessoPadrao,
@@ -72,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                                 )
                               ],
                             )
-                          ),
+                          )
                         ),
                         const SizedBox(
                           height: 30,

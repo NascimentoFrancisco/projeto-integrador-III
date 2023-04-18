@@ -1,6 +1,6 @@
-import 'package:access_control/pages/home/home.dart';
 import 'package:access_control/pages/my_datas/componets/change_password.dart';
 import 'package:access_control/pages/my_datas/my_datas.dart';
+import 'package:access_control/pages/user_page/home_user.dart';
 import 'package:access_control/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
@@ -120,10 +120,14 @@ class _BodyState extends State<Body> {
               Row(
                 children: [
                   TextButton(
-                    onPressed: (){
-                      Navigator.pushReplacement(context, 
-                        MaterialPageRoute(builder: (context) => const HomePage())
-                      );
+                    onPressed: ()async{
+                      bool log = await loginStores.sairLogin();
+                      if (!log){
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushReplacement(context, 
+                          MaterialPageRoute(builder: (context) => const HomeUser())
+                        );
+                      }
                     }, 
                     child: Text("Sair",
                       style: TextStyle(

@@ -1,5 +1,4 @@
 import 'package:access_control/pages/login/login.dart';
-import 'package:access_control/pages/student/models.dart';
 import 'package:access_control/widgets/botao_voltar.dart';
 import 'package:access_control/widgets/logo.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ class BodyMyDatas extends StatefulWidget {
 class _BodyMyDatasState extends State<BodyMyDatas> {
 
   String dataNascimento = DateFormat('dd/MM/yyyy').format(DateTime.now());
-
 
 
   @override
