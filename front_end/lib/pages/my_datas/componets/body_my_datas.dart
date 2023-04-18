@@ -1,3 +1,4 @@
+import 'package:access_control/pages/login/login.dart';
 import 'package:access_control/pages/student/models.dart';
 import 'package:access_control/widgets/botao_voltar.dart';
 import 'package:access_control/widgets/logo.dart';
@@ -17,15 +18,7 @@ class _BodyMyDatasState extends State<BodyMyDatas> {
 
   String dataNascimento = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
-  DadosAluno dados = DadosAluno(
-    nome: "Aluno para testes de desenvolvimento", 
-    cpf: "000.000.000-00", 
-    matricula: "2020121SIGLA00", 
-    dataNascimento: DateTime(1998, 10, 04),
-    email: "aluno.ads@aluno.ifpi.edu.br",
-    curso: "Análise e Desenvolvimento de Sistemas",
-    turno: "Noturno" 
-  );
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +49,13 @@ class _BodyMyDatasState extends State<BodyMyDatas> {
                 height: 10,
               ),
                              
-              fazWidgetsDados("Nome:", dados.nome),
-              fazWidgetsDados("CPF:", dados.cpf),
-              fazWidgetsDados("Matrícula:", dados.matricula),
-              fazWidgetsDados("Data de nascimento:", dados.dataNascimento),
-              fazWidgetsDados("Email:", dados.email),
-              fazWidgetsDados("Curso:", dados.curso),
-              fazWidgetsDados("Turno:", dados.turno),
+              fazWidgetsDados("Nome:", alunoStores.aluno!.nome),
+              fazWidgetsDados("CPF:", alunoStores.aluno!.user.cpf),
+              fazWidgetsDados("Matrícula:", alunoStores.aluno!.user.matricula),
+              fazWidgetsDados("Data de nascimento:", alunoStores.aluno!.dataNascimento),
+              fazWidgetsDados("Email:", alunoStores.aluno!.user.email),
+              fazWidgetsDados("Curso:", alunoStores.aluno!.curso.titulo),
+              fazWidgetsDados("Turno:", alunoStores.aluno!.curso.turno),
               
               retornaBotaoVoltarEsquerto(context),
             ],

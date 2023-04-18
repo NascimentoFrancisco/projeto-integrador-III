@@ -4,8 +4,9 @@ from django.db import models
 
 class Curso(models.Model):
 
-    titulo = models.CharField("Título", verbose_name=255)
-    sigla = models.CharField("Título", verbose_name=5)
+    titulo = models.CharField("Título", max_length=255)
+    sigla = models.CharField("Sigla", max_length=5)
+    turno = models.CharField("Turno", max_length=20)
 
     def __str__(self) -> str:
         return self.sigla

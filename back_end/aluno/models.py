@@ -1,7 +1,7 @@
 from django.db import models
+from django.conf import settings 
 
 from curso.models import Curso
-from accounts.models import User
 # Create your models here.
 
 class Aluno(models.Model):
@@ -13,8 +13,9 @@ class Aluno(models.Model):
         verbose_name="Curso"
     )
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, 
-        verbose_name='Usuário', null=True
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE, 
+        verbose_name='Usuário'
     )
 
     def __str__(self):

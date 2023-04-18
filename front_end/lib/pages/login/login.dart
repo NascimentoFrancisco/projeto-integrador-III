@@ -4,6 +4,9 @@ import 'package:access_control/pages/user_page/home_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../colors/cores_padroes.dart';
+import '../../stores/aluno.stores.dart';
+
+AlunoStores alunoStores = AlunoStores();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -140,10 +143,11 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
-                                onPressed: (){
+                                onPressed: () async {
                                   Navigator.push(context,
                                     MaterialPageRoute(builder: ((context) => const UserPage()))
                                   );
+                                  await alunoStores.getAluno();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color.fromARGB(255, 4, 57, 170),

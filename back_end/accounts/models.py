@@ -4,21 +4,27 @@ from django.db import models
 
 from .managers import CustomUserManager
 
-class User(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     cpf = models.CharField(
-        "CPF", max_length=11, null=True, blank=True
+        "CPF", max_length=11, null=True, blank=True, unique=True,
+        error_messages={"unique":"Este CPF já está cadastrada no sistema."}
     )
     matricula = models.CharField(
         "Matrícula", max_length=20, unique=True,
         error_messages={"unique":"Esta matrícula já está cadastrada no sistema."}
     )
+    email = models.EmailField(
+        "Email", unique=True, 
+        error_messages={"unique":"Este email já está cadastrado no sistema."}
+    )
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = "matricula"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["cpf", "email"]
 
     objects = CustomUserManager()
 
