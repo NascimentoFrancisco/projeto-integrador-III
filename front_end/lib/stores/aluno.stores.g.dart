@@ -9,6 +9,14 @@ part of 'aluno.stores.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AlunoStores on _AlunoStores, Store {
+  Computed<bool>? _$getIsClickedComputed;
+
+  @override
+  bool get getIsClicked =>
+      (_$getIsClickedComputed ??= Computed<bool>(() => super.getIsClicked,
+              name: '_AlunoStores.getIsClicked'))
+          .value;
+
   late final _$cursoAtom = Atom(name: '_AlunoStores.curso', context: context);
 
   @override
@@ -54,6 +62,22 @@ mixin _$AlunoStores on _AlunoStores, Store {
     });
   }
 
+  late final _$isClickedAtom =
+      Atom(name: '_AlunoStores.isClicked', context: context);
+
+  @override
+  bool get isClicked {
+    _$isClickedAtom.reportRead();
+    return super.isClicked;
+  }
+
+  @override
+  set isClicked(bool value) {
+    _$isClickedAtom.reportWrite(value, super.isClicked, () {
+      super.isClicked = value;
+    });
+  }
+
   late final _$getAlunoAsyncAction =
       AsyncAction('_AlunoStores.getAluno', context: context);
 
@@ -67,7 +91,9 @@ mixin _$AlunoStores on _AlunoStores, Store {
     return '''
 curso: ${curso},
 user: ${user},
-aluno: ${aluno}
+aluno: ${aluno},
+isClicked: ${isClicked},
+getIsClicked: ${getIsClicked}
     ''';
   }
 }

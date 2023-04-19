@@ -6,7 +6,7 @@ import 'package:access_control/widgets/circular_progressor.dart';
 import 'package:flutter/material.dart';
 
 
-LoginStores loginStores = LoginStores();
+final loginStores = LoginStores();
 
 class HomeUser extends StatefulWidget {
   const HomeUser({super.key});

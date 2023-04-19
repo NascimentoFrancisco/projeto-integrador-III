@@ -1,3 +1,4 @@
+import 'package:access_control/pages/user_page/home_user.dart';
 import 'package:access_control/widgets/botao_voltar.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,17 @@ class GeneratorQRCode extends StatefulWidget {
 
 class _GeneratorQRCodeState extends State<GeneratorQRCode> {
 
-  var code = 'Testando o gerador de QRCode';
+  String code = "";
+
+  @override
+  void initState() {
+    
+    super.initState();
+    code = loginStores.token!;
+
+    code = code + DateTime.now().toString();
+
+  }
 
   @override
   Widget build(BuildContext context) {

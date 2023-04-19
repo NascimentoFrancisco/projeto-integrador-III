@@ -7,7 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../colors/cores_padroes.dart';
 import '../../stores/aluno.stores.dart';
 
-AlunoStores alunoStores = AlunoStores();
+final alunoStores = AlunoStores();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -149,31 +149,42 @@ class _LoginPageState extends State<LoginPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              ElevatedButton(
-                                onPressed: () async {
+                              Observer(
+                                builder: (_){
+                                  return ElevatedButton(
+                                    onPressed: loginStores.getClicked 
+                                    ?(){}
+                                    :()  async {
+                                      
+                                      FocusScope.of(context).requestFocus(FocusNode());
+                                      bool log = await loginStores.efetuaLogin(matriculaController.text, senhaController.text);
 
-                                  bool log = await loginStores.efetuaLogin(matriculaController.text, senhaController.text);
-
-                                  if (log){
-                                    // ignore: use_build_context_synchronously
-                                    Navigator.push(context,
-                                      MaterialPageRoute(builder: ((context) => const HomeUser()))
-                                    );
-                                  } else {
-                                    // ignore: use_build_context_synchronously
-                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                  }
+                                      if (log){
+                                        // ignore: use_build_context_synchronously
+                                        Navigator.push(context,
+                                          MaterialPageRoute(builder: ((context) => const HomeUser()))
+                                        );
+                                      } else {
+                                        // ignore: use_build_context_synchronously
+                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                      }
                                   
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromARGB(255, 4, 57, 170),
-                                  minimumSize: const Size(140, 40)
-                                ), 
-                                child: const Text("Entrar",
-                                  style: TextStyle(
-                                    fontSize: 25
-                                  ),
-                                )
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(255, 4, 57, 170),
+                                      minimumSize: const Size(140, 40)
+                                    ), 
+                                    child: loginStores.getClicked 
+                                      ?const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )  
+                                      : const Text("Entrar",
+                                        style: TextStyle(
+                                          fontSize: 25
+                                        ),
+                                      )
+                                  );
+                                }
                               )
                             ],
                           ),

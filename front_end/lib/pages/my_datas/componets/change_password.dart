@@ -1,8 +1,11 @@
 
+import 'package:access_control/pages/login/login.dart';
 import 'package:access_control/widgets/botao_voltar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../colors/cores_padroes.dart';
+import '../../user_page/home_user.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -15,6 +18,10 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   bool obscured = true;
   final textFieldFocusNode = FocusNode();
+
+  TextEditingController senhaAntigaController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  TextEditingController senhaconfirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +58,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           TextField(
                             obscureText: obscured,
+                            controller: senhaAntigaController,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: textoBrancoPadrao,
@@ -94,7 +102,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                             height: 20,
                           ),
                           TextField(
-                            obscureText: true,
+                            obscureText: obscured,
+                            controller: senhaController,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: textoBrancoPadrao,
@@ -138,7 +147,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                             height: 20,
                           ),
                           TextField(
-                            obscureText: true,
+                            obscureText: obscured,
+                            controller: senhaconfirmController,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: textoBrancoPadrao,
@@ -188,16 +198,36 @@ class _ChangePasswordState extends State<ChangePassword> {
                               const SizedBox(
                                 width: 40,
                               ),
-                              ElevatedButton(
-                                onPressed: (){},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: azulBotaoSucessoPadrao
-                                ), 
-                                child: const Text("Salvar",
-                                  style: TextStyle(
-                                    fontSize: 25
-                                  ),
-                                )
+                              Observer(
+                                builder: (_) {
+                                  return ElevatedButton(
+                                    onPressed: loginStores.getClicked 
+                                    ?(){}
+                                    : () async{
+                                     await loginStores.mudaSenha(
+                                        senhaAntigaController.text, 
+                                        senhaController.text, 
+                                        senhaconfirmController.text, 
+                                        alunoStores.aluno!,
+                                        loginStores.token!  
+                                      );
+                                      // ignore: use_build_context_synchronously
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: azulBotaoSucessoPadrao
+                                    ), 
+                                    child: loginStores.getClicked 
+                                      ?const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )  
+                                      :const Text("Salvar",
+                                        style: TextStyle(
+                                          fontSize: 25
+                                        ),
+                                    )
+                                  );
+                                }
                               )
                             ],
                           ),
@@ -220,4 +250,17 @@ class _ChangePasswordState extends State<ChangePassword> {
       textFieldFocusNode.canRequestFocus = false;     
     });
   }
+
+  var snackBar = SnackBar(
+    content: Observer(builder: (_) => Text(loginStores.messege,
+      style: const TextStyle(color: Colors.white),
+    ),),
+    backgroundColor: Colors.redAccent,
+    action: SnackBarAction(
+      label: 'Fechar',
+      textColor: Colors.black,
+      onPressed: (){},
+      ),
+  );
+
 }

@@ -82,7 +82,30 @@ class _BodyState extends State<Body> {
                     backgroundColor: azulBotaoSucessoPadrao,
                     minimumSize: const Size(300, 50)
                   ), 
-                  child: Text("Gerar QRCode",
+                  child: Text("Gerar QRCode de entrada",
+                    style: TextStyle(
+                      color: textoBrancoPadrao,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold
+                    ),
+                  )
+                ),
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => const GeneratorQRCode()))
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: azulBotaoSucessoPadrao,
+                    minimumSize: const Size(300, 50)
+                  ), 
+                  child: Text("Gerar QRCode de saída",
                     style: TextStyle(
                       color: textoBrancoPadrao,
                       fontSize: 22,
@@ -117,33 +140,34 @@ class _BodyState extends State<Body> {
               const SizedBox(
                 height: 50,
               ),
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: ()async{
-                      bool log = await loginStores.sairLogin();
-                      if (!log){
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushReplacement(context, 
-                          MaterialPageRoute(builder: (context) => const HomeUser())
-                        );
-                      }
-                    }, 
-                    child: Text("Sair",
-                      style: TextStyle(
-                        color: textoBrancoPadrao,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
-                        decorationStyle: TextDecorationStyle.double
-                      ),
-                    )
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: ()async{
+                        bool log = await loginStores.sairLogin();
+                        if (!log){
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacement(context, 
+                            MaterialPageRoute(builder: (context) => const HomeUser())
+                          );
+                        }
+                      }, 
+                      child: Text("Sair",
+                        style: TextStyle(
+                          color: textoBrancoPadrao,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.double
+                        ),
+                      )
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(
-                height: 50,
-              ),
+              
             ],
           ),
         ),

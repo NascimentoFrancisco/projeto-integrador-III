@@ -9,6 +9,14 @@ part of 'login.stores.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$LoginStores on _LoginStores, Store {
+  Computed<bool>? _$getClickedComputed;
+
+  @override
+  bool get getClicked =>
+      (_$getClickedComputed ??= Computed<bool>(() => super.getClicked,
+              name: '_LoginStores.getClicked'))
+          .value;
+
   late final _$isLoggedInAtom =
       Atom(name: '_LoginStores.isLoggedIn', context: context);
 
@@ -37,6 +45,38 @@ mixin _$LoginStores on _LoginStores, Store {
   set login(bool value) {
     _$loginAtom.reportWrite(value, super.login, () {
       super.login = value;
+    });
+  }
+
+  late final _$senhaMudadaAtom =
+      Atom(name: '_LoginStores.senhaMudada', context: context);
+
+  @override
+  bool get senhaMudada {
+    _$senhaMudadaAtom.reportRead();
+    return super.senhaMudada;
+  }
+
+  @override
+  set senhaMudada(bool value) {
+    _$senhaMudadaAtom.reportWrite(value, super.senhaMudada, () {
+      super.senhaMudada = value;
+    });
+  }
+
+  late final _$clickedAtom =
+      Atom(name: '_LoginStores.clicked', context: context);
+
+  @override
+  bool get clicked {
+    _$clickedAtom.reportRead();
+    return super.clicked;
+  }
+
+  @override
+  set clicked(bool value) {
+    _$clickedAtom.reportWrite(value, super.clicked, () {
+      super.clicked = value;
     });
   }
 
@@ -96,13 +136,30 @@ mixin _$LoginStores on _LoginStores, Store {
     return _$sairLoginAsyncAction.run(() => super.sairLogin());
   }
 
+  late final _$_LoginStoresActionController =
+      ActionController(name: '_LoginStores', context: context);
+
+  @override
+  void setClicked() {
+    final _$actionInfo = _$_LoginStoresActionController.startAction(
+        name: '_LoginStores.setClicked');
+    try {
+      return super.setClicked();
+    } finally {
+      _$_LoginStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 isLoggedIn: ${isLoggedIn},
 login: ${login},
+senhaMudada: ${senhaMudada},
+clicked: ${clicked},
 token: ${token},
-messege: ${messege}
+messege: ${messege},
+getClicked: ${getClicked}
     ''';
   }
 }

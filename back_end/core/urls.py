@@ -18,7 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
-from accounts.views import AlunoCreateView, AlunoListView, AlunoGetView, AlunoGetViewLog
+from accounts.views import (
+    AlunoCreateView, AlunoListView, AlunoGetView, AlunoGetViewLog,
+    ChangePasswordView
+)
 
 router = routers.DefaultRouter()
 
@@ -26,6 +29,7 @@ router.register(r'alunos', AlunoGetView)
 
 urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('change_password/<int:pk>/', ChangePasswordView.as_view(), name='auth_change_password'),
     path('admin/', admin.site.urls),
     path("", include(router.urls)),
     path("create", AlunoCreateView.as_view(), name="create_aluno"),

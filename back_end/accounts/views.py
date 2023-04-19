@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from aluno.models import Aluno
 
-
-from .serializer_accounts import AlunoSerializer, AlunoListSerializer
+from .models import CustomUser
+from .serializer_accounts import AlunoSerializer, AlunoListSerializer, ChangePasswordSerializer
 # Create your views here.
 
 
@@ -37,3 +37,10 @@ class AlunoGetViewLog(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return Aluno.objects.filter(user=user)
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+
+    queryset = CustomUser.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
