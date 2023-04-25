@@ -1,4 +1,5 @@
 
+import 'package:access_control/pages/login/login.dart';
 import 'package:access_control/pages/user_page/home_user.dart';
 import 'package:access_control/widgets/logo.dart';
 import 'package:flutter/material.dart';
@@ -55,8 +56,8 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                             onPressed: () async {
-                              Navigator.push(context,
-                                MaterialPageRoute(builder: ((context) => const HomeUser()))
+                              Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) => const LoginPage())
                               );  
                             },
                             style: ElevatedButton.styleFrom(

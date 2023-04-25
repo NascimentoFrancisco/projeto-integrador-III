@@ -14,7 +14,7 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
 
-  @override
+  /* @override
   void initState() {
 
     super.initState();
@@ -22,7 +22,7 @@ class _UserPageState extends State<UserPage> {
     loginStores.pegaToken();
     alunoStores.getAluno(loginStores.token!);
 
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

@@ -30,8 +30,6 @@ class AlunoGetView(viewsets.ModelViewSet):
 class AlunoGetViewLog(generics.ListAPIView):
 
     permission_classes = [IsAuthenticated]
-    
-    queryset = Aluno.objects.all()
     serializer_class = AlunoListSerializer
 
     def get_queryset(self):

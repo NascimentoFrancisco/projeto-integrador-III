@@ -23,6 +23,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController senhaController = TextEditingController();
   TextEditingController senhaconfirmController = TextEditingController();
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -211,8 +212,28 @@ class _ChangePasswordState extends State<ChangePassword> {
                                         alunoStores.aluno!,
                                         loginStores.token!  
                                       );
+
+                                      if(loginStores.senhaMudada){
+                                        senhaAntigaController.clear();
+                                        senhaController.clear();
+                                        senhaconfirmController.clear();
+                                      }
                                       // ignore: use_build_context_synchronously
-                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(loginStores.messege,
+                                            style: TextStyle(
+                                              color: loginStores.senhaMudada ? Colors.black : Colors.white
+                                            ),
+                                          ),
+                                          backgroundColor: loginStores.senhaMudada ? Colors.greenAccent : Colors.redAccent,
+                                          action: SnackBarAction(
+                                            label: 'Fechar',
+                                            textColor: Colors.black,
+                                            onPressed: (){},
+                                          ),
+                                        )
+                                      );
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: azulBotaoSucessoPadrao
@@ -250,17 +271,5 @@ class _ChangePasswordState extends State<ChangePassword> {
       textFieldFocusNode.canRequestFocus = false;     
     });
   }
-
-  var snackBar = SnackBar(
-    content: Observer(builder: (_) => Text(loginStores.messege,
-      style: const TextStyle(color: Colors.white),
-    ),),
-    backgroundColor: Colors.redAccent,
-    action: SnackBarAction(
-      label: 'Fechar',
-      textColor: Colors.black,
-      onPressed: (){},
-      ),
-  );
 
 }
