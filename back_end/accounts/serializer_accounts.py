@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from curso.serializer_curso import CursoSerializer
 
+from curso.models import Curso
 from aluno.models import Aluno
 from .models import CustomUser
 
@@ -33,12 +34,14 @@ class AlunoSerializer(serializers.ModelSerializer):
         fields = ["id", "nome", "data_nascimento", "curso", "user"]
 
     def create(self, validated_data):
+        
         user_data = validated_data.pop("user")
         password = user_data.pop("password")
         user = CustomUser.objects.create(**user_data)
         user.set_password(password)
         user.save()
         aluno =  Aluno.objects.create(user = user, **validated_data)
+        
         return aluno
 
 

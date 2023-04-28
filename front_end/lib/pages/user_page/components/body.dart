@@ -3,9 +3,11 @@ import 'package:access_control/pages/my_datas/my_datas.dart';
 import 'package:access_control/pages/user_page/home_user.dart';
 import 'package:access_control/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../colors/cores_padroes.dart';
 import '../../generator_qrcode/genereator_qrcode.dart';
+import '../../login/login.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -15,6 +17,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,105 +40,125 @@ class _BodyState extends State<Body> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Text("Olá, Francisco Nascimento",
-                  style: TextStyle(
-                    color: textoBrancoPadrao,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
-                  ),
+                child: Observer(
+                  builder: (context){
+                    return Text(formataNome(alunoStores.aluno?.nome),
+                      style: TextStyle(
+                        color: textoBrancoPadrao,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
+                      ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(
                 height: 50,
               ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => const MyDatas()))
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: azulBotaoSucessoPadrao,
-                    minimumSize: const Size(300, 50)
-                  ), 
-                  child: Text("Meus dados",
-                    style: TextStyle(
-                      color: textoBrancoPadrao,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold
-                    ),
-                  )
-                ),
+              Observer(
+                builder: (context){
+                  return Center(
+                    child: ElevatedButton(
+                      onPressed: alunoStores.aluno?.nome == null ? (){} : () {
+                        Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => const MyDatas()))
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: azulBotaoSucessoPadrao,
+                      minimumSize: const Size(300, 50)
+                    ), 
+                    child: Text("Meus dados",
+                      style: TextStyle(
+                        color: textoBrancoPadrao,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  ),
+                );
+                }
               ),
               const SizedBox(
                 height: 35,
               ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => const GeneratorQRCode()))
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: azulBotaoSucessoPadrao,
-                    minimumSize: const Size(300, 50)
-                  ), 
-                  child: Text("Gerar QRCode de entrada",
-                    style: TextStyle(
-                      color: textoBrancoPadrao,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold
-                    ),
-                  )
-                ),
+              Observer(
+                builder: (context){
+                  return Center(
+                    child: ElevatedButton(
+                      onPressed: alunoStores.aluno?.nome == null ? (){} : (){
+                        Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => const GeneratorQRCode()))
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: azulBotaoSucessoPadrao,
+                      minimumSize: const Size(300, 50)
+                    ), 
+                    child: Text("Gerar QRCode de entrada",
+                      style: TextStyle(
+                        color: textoBrancoPadrao,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  ),
+                );
+                }
               ),
               const SizedBox(
                 height: 35,
               ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => const GeneratorQRCode()))
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: azulBotaoSucessoPadrao,
-                    minimumSize: const Size(300, 50)
-                  ), 
-                  child: Text("Gerar QRCode de saída",
-                    style: TextStyle(
-                      color: textoBrancoPadrao,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold
-                    ),
-                  )
-                ),
+              Observer(
+                builder: (context){
+                  return Center(
+                    child: ElevatedButton(
+                      onPressed: alunoStores.aluno?.nome == null ? (){} : (){
+                        Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => const GeneratorQRCode()))
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: azulBotaoSucessoPadrao,
+                      minimumSize: const Size(300, 50)
+                    ), 
+                    child: Text("Gerar QRCode de saída",
+                      style: TextStyle(
+                        color: textoBrancoPadrao,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  ),
+                );
+                }
               ),
               const SizedBox(
                 height: 35,
               ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => const ChangePassword()))
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: azulBotaoSucessoPadrao,
-                    minimumSize: const Size(300, 50)
-                  ), 
-                  child: Text("Mudar senha",
-                    style: TextStyle(
-                      color: textoBrancoPadrao,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold
-                    ),
-                  )
-                ),
+              Observer(
+                builder: (context){
+                  return Center(
+                    child: ElevatedButton(
+                      onPressed: alunoStores.aluno?.nome == null ? (){} : (){
+                        Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => const ChangePassword()))
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: azulBotaoSucessoPadrao,
+                      minimumSize: const Size(300, 50)
+                    ), 
+                    child: Text("Mudar senha",
+                      style: TextStyle(
+                        color: textoBrancoPadrao,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  ),
+                );
+                }
               ),
               const SizedBox(
                 height: 50,
@@ -174,4 +197,35 @@ class _BodyState extends State<Body> {
       ),
     );
   }
+
+  String formataNome(String? nome){
+
+    if (nome == null){
+      return "Aguarde...";
+    }
+
+    String nomeFormatado= "";
+    List<String> nomelist = nome.split(" ");
+    
+    if (nomelist[1] == "da" || nomelist[1] == "de" || nomelist[1] == "do"){
+      for(int index = 0; index < 3; index ++){
+        if(index == 0){
+          nomeFormatado += nomelist[index];
+        } else{
+          nomeFormatado += " ${nomelist[index]}";
+        }
+      }
+    }else{
+      for(int index = 0; index < 2; index ++){
+        if(index == 0){
+          nomeFormatado += nomelist[index];
+        } else{
+          nomeFormatado += " ${nomelist[index]}";
+        }
+      }
+    }
+
+    return "Olá, $nomeFormatado";
+  }
+
 }

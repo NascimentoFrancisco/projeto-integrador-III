@@ -21,6 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController matriculaController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
+  bool obscured = true;
+  final textFieldFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextField(
                             controller: senhaController,
-                            obscureText: true,
+                            obscureText: obscured,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: textoBrancoPadrao,
@@ -105,6 +108,20 @@ class _LoginPageState extends State<LoginPage> {
                               labelStyle: const TextStyle(
                                 color:Colors.black
                               ), 
+                              prefixIcon: const Icon(Icons.lock_rounded,color: Color.fromARGB(255, 6, 168, 90),size: 24), 
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.all(2),
+                                child: GestureDetector(
+                                  onTap: toggleObscured,
+                                  child: Icon(
+                                    obscured
+                                    ? Icons.visibility_rounded
+                                    :Icons.visibility_off_rounded,
+                                    size: 24,
+                                    color: const Color.fromARGB(255, 6, 168, 90),
+                                  ),
+                                ),
+                              ),
                               border: const OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color.fromARGB(255, 0, 7, 0)
@@ -202,6 +219,14 @@ class _LoginPageState extends State<LoginPage> {
         )
       ),
     );
+  }
+
+  void toggleObscured() {
+    setState(() {
+      obscured = !obscured;
+      if (textFieldFocusNode.hasPrimaryFocus) return; 
+      textFieldFocusNode.canRequestFocus = false;     
+    });
   }
 
   var snackBar = SnackBar(
