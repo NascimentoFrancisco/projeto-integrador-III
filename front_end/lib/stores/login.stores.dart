@@ -32,6 +32,17 @@ abstract class _LoginStores with Store {
   @observable
   String messege = "";
 
+  @observable
+  String tipo = "";
+
+  @action
+  void setTipo(String value){
+    tipo = value;
+  }
+
+  @computed
+  String get getTipo => tipo;
+
   @action
   void setClicked(){
     clicked = !clicked;
@@ -147,6 +158,7 @@ abstract class _LoginStores with Store {
         Uri.parse(urlChange), headers: headers, body: dados 
       );
 
+      // ignore: prefer_typing_uninitialized_variables
       var erro;
 
       if (response.statusCode == 200){

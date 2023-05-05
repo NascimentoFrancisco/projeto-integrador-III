@@ -9,6 +9,12 @@ part of 'login.stores.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$LoginStores on _LoginStores, Store {
+  Computed<String>? _$getTipoComputed;
+
+  @override
+  String get getTipo => (_$getTipoComputed ??=
+          Computed<String>(() => super.getTipo, name: '_LoginStores.getTipo'))
+      .value;
   Computed<bool>? _$getClickedComputed;
 
   @override
@@ -111,6 +117,21 @@ mixin _$LoginStores on _LoginStores, Store {
     });
   }
 
+  late final _$tipoAtom = Atom(name: '_LoginStores.tipo', context: context);
+
+  @override
+  String get tipo {
+    _$tipoAtom.reportRead();
+    return super.tipo;
+  }
+
+  @override
+  set tipo(String value) {
+    _$tipoAtom.reportWrite(value, super.tipo, () {
+      super.tipo = value;
+    });
+  }
+
   late final _$checkLoginAsyncAction =
       AsyncAction('_LoginStores.checkLogin', context: context);
 
@@ -140,6 +161,17 @@ mixin _$LoginStores on _LoginStores, Store {
       ActionController(name: '_LoginStores', context: context);
 
   @override
+  void setTipo(String value) {
+    final _$actionInfo = _$_LoginStoresActionController.startAction(
+        name: '_LoginStores.setTipo');
+    try {
+      return super.setTipo(value);
+    } finally {
+      _$_LoginStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setClicked() {
     final _$actionInfo = _$_LoginStoresActionController.startAction(
         name: '_LoginStores.setClicked');
@@ -159,6 +191,8 @@ senhaMudada: ${senhaMudada},
 clicked: ${clicked},
 token: ${token},
 messege: ${messege},
+tipo: ${tipo},
+getTipo: ${getTipo},
 getClicked: ${getClicked}
     ''';
   }

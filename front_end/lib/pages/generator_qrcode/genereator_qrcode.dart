@@ -7,21 +7,26 @@ import 'package:flutter/material.dart';
 class GeneratorQRCode extends StatefulWidget {
   const GeneratorQRCode({super.key});
 
+
   @override
   State<GeneratorQRCode> createState() => _GeneratorQRCodeState();
 }
 
 class _GeneratorQRCodeState extends State<GeneratorQRCode> {
 
-  String code = "";
+  
+  Map<String, dynamic> dados = {};
 
   @override
   void initState() {
     
     super.initState();
-    code = loginStores.token!;
 
-    code = code + DateTime.now().toString();
+    dados = {
+      "token": loginStores.token!,
+      "Data_hora": DateTime.now().toString(),
+      "tipo": loginStores.getTipo
+    };
 
   }
 
@@ -37,7 +42,7 @@ class _GeneratorQRCodeState extends State<GeneratorQRCode> {
                 Padding(
                   padding: const EdgeInsets.only(top: 130.0, bottom: 130.0),
                   child: BarcodeWidget(
-                    data: code, 
+                    data: dados.toString(), 
                     barcode: Barcode.qrCode(
                       errorCorrectLevel: BarcodeQRCorrectionLevel.high,
                     ),

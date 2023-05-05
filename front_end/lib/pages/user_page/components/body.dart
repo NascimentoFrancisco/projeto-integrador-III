@@ -18,6 +18,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -87,6 +88,7 @@ class _BodyState extends State<Body> {
                   return Center(
                     child: ElevatedButton(
                       onPressed: alunoStores.aluno?.nome == null ? (){} : (){
+                        loginStores.setTipo("Entrada");
                         Navigator.push(context,
                         MaterialPageRoute(builder: ((context) => const GeneratorQRCode()))
                       );
@@ -114,6 +116,7 @@ class _BodyState extends State<Body> {
                   return Center(
                     child: ElevatedButton(
                       onPressed: alunoStores.aluno?.nome == null ? (){} : (){
+                        loginStores.setTipo("Saida");
                         Navigator.push(context,
                         MaterialPageRoute(builder: ((context) => const GeneratorQRCode()))
                       );
