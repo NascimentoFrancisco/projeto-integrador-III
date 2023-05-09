@@ -1,8 +1,10 @@
 
-import 'package:access_control/widgets/botao_voltar.dart';
+import 'package:access_control/app/logs/logs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../colors/cores_padroes.dart';
+import '../widgets/botoes/botoes.dart';
+import '../widgets/colors/colors.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -12,6 +14,9 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+
+  TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +70,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextField(
+                            controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               filled: true,
@@ -102,16 +108,48 @@ class _ResetPasswordState extends State<ResetPassword> {
                             const SizedBox(
                               width: 30,
                             ),
-                            ElevatedButton(
-                              onPressed: (){},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: azulBotaoSucessoPadrao
-                              ), 
-                              child: const Text("Enviar",
-                                style: TextStyle(
-                                  fontSize: 25
-                                ),
-                              )
+                            Observer(
+                              builder: (context){
+                                return ElevatedButton(
+                                  onPressed: alunoLoginStores.getClickLogin? (){}: ()async{
+                                    alunoLoginStores.setClickLogin(true);
+                                    bool emailEnviado = await alunoLoginStores.enviaEmailRedefenirSenha(emailController.text);
+                                    if(emailEnviado){
+                                      emailController.clear();
+                                      alunoLoginStores.setClickLogin(false);
+                                    }
+
+                                    // ignore: use_build_context_synchronously
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(alunoLoginStores.mensagem,
+                                          style: TextStyle(
+                                            color: emailEnviado ? Colors.black : Colors.white
+                                          ),
+                                        ),
+                                        backgroundColor: emailEnviado ? Colors.greenAccent : Colors.redAccent,
+                                        action: SnackBarAction(
+                                          label: 'Fechar',
+                                          textColor: Colors.black,
+                                          onPressed: (){},
+                                        ),
+                                      )
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: azulBotaoSucessoPadrao
+                                  ), 
+                                  child: alunoLoginStores.getClickLogin ? 
+                                    const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ):
+                                    const Text("Enviar",
+                                      style: TextStyle(
+                                      fontSize: 25
+                                    ),
+                                  )
+                                );
+                              }
                             )
                           ],
                         ),

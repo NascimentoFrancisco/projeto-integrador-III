@@ -1,16 +1,15 @@
-
 import 'package:flutter/material.dart';
 
-import 'components/body.dart';
+import '../aluno/components/body.dart';
 
-class UserPage extends StatefulWidget {
-  const UserPage({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<UserPage> createState() => _UserPageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _UserPageState extends State<UserPage> {
+class _HomeState extends State<Home> {
 
   
   @override

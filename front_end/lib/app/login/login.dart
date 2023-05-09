@@ -1,13 +1,10 @@
 
-import 'package:access_control/pages/reset_password/reset_password.dart';
-import 'package:access_control/pages/user_page/home_user.dart';
+import 'package:access_control/app/logs/logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import '../reset_password/reset_password.dart';
+import '../widgets/colors/colors.dart';
 
-import '../../colors/cores_padroes.dart';
-import '../../stores/aluno.stores.dart';
-
-final alunoStores = AlunoStores();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -73,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: textoBrancoPadrao,
-                              labelText: "Matrícula",
+                              labelText: "CPF ou Matrícula",
                               labelStyle: const TextStyle(
                                 color:Colors.black
                               ), 
@@ -169,37 +166,45 @@ class _LoginPageState extends State<LoginPage> {
                               Observer(
                                 builder: (_){
                                   return ElevatedButton(
-                                    onPressed: loginStores.getClicked 
-                                    ?(){}
-                                    :()  async {
-                                      
+                                    onPressed: alunoLoginStores.getClickLogin ? () {}: () async {
                                       FocusScope.of(context).requestFocus(FocusNode());
-                                      bool log = await loginStores.efetuaLogin(matriculaController.text, senhaController.text);
-
-                                      if (log){
+                                      bool log = await alunoLoginStores.efetuaLogin(matriculaController.text, senhaController.text);
+                                      if(log){
                                         // ignore: use_build_context_synchronously
-                                        Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: ((context) => const HomeUser()))
+                                        Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) => const Logs())
                                         );
-                                      } else {
+                                      } else{
                                         // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(alunoLoginStores.mensagem,
+                                              style: const TextStyle(color: Colors.white)
+                                            ),
+                                            backgroundColor: Colors.redAccent,
+                                            action: SnackBarAction(
+                                              label: 'Fechar',
+                                              textColor: Colors.black,
+                                              onPressed: (){},
+                                            ),
+                                          )
+                                        );
                                       }
-                                  
+                                      
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color.fromARGB(255, 4, 57, 170),
                                       minimumSize: const Size(140, 40)
                                     ), 
-                                    child: loginStores.getClicked 
-                                      ?const CircularProgressIndicator(
+                                    child: alunoLoginStores.getClickLogin ? 
+                                      const CircularProgressIndicator(
                                         color: Colors.white,
-                                      )  
-                                      : const Text("Entrar",
-                                        style: TextStyle(
-                                          fontSize: 25
-                                        ),
-                                      )
+                                      ) : 
+                                      const Text("Entrar",
+                                      style: TextStyle(
+                                        fontSize: 25
+                                      ),
+                                    )
                                   );
                                 }
                               )
@@ -228,17 +233,5 @@ class _LoginPageState extends State<LoginPage> {
       textFieldFocusNode.canRequestFocus = false;     
     });
   }
-
-  var snackBar = SnackBar(
-    content: Observer(builder: (_) => Text(loginStores.messege,
-      style: const TextStyle(color: Colors.white),
-    ),),
-    backgroundColor: Colors.redAccent,
-    action: SnackBarAction(
-      label: 'Fechar',
-      textColor: Colors.black,
-      onPressed: (){},
-      ),
-  );
 
 }

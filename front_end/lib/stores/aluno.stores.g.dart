@@ -82,8 +82,8 @@ mixin _$AlunoStores on _AlunoStores, Store {
       AsyncAction('_AlunoStores.getAluno', context: context);
 
   @override
-  Future<void> getAluno(String token) {
-    return _$getAlunoAsyncAction.run(() => super.getAluno(token));
+  Future<void> getAluno(Map<String, dynamic> tokens) {
+    return _$getAlunoAsyncAction.run(() => super.getAluno(tokens));
   }
 
   @override

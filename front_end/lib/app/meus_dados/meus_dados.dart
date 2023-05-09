@@ -1,15 +1,15 @@
 
-import 'package:access_control/pages/my_datas/componets/body_my_datas.dart';
+import 'package:access_control/app/meus_dados/widgets/body_meus_dados.dart';
 import 'package:flutter/material.dart';
 
-class MyDatas extends StatefulWidget {
-  const MyDatas({super.key});
+class MeusDados extends StatefulWidget {
+  const MeusDados({super.key});
 
   @override
-  State<MyDatas> createState() => _MyDatasState();
+  State<MeusDados> createState() => _MeusDadosState();
 }
 
-class _MyDatasState extends State<MyDatas> {
+class _MeusDadosState extends State<MeusDados> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class _MyDatasState extends State<MyDatas> {
               SizedBox(
                 height: 10,
               ),
-              BodyMyDatas()
+              BodyMeusDados()
             ],
           ),
         ),

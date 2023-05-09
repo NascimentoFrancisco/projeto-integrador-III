@@ -1,19 +1,19 @@
 
-import 'package:access_control/pages/login/login.dart';
-import 'package:access_control/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
-import '../../colors/cores_padroes.dart';
+import '../login/login.dart';
+import '../widgets/colors/colors.dart';
+import '../widgets/logos/logos.dart';
 
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Inicio extends StatefulWidget {
+  const Inicio({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Inicio> createState() => _InicioState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _InicioState extends State<Inicio> {
 
 
   @override
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                             onPressed: () async {
-                              Navigator.pushReplacement(context,
+                              Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => const LoginPage())
                               );  
                             },

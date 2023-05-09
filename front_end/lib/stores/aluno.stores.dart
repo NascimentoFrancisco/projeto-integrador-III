@@ -1,11 +1,13 @@
 import 'dart:convert';
-import 'package:access_control/models/aluno_models.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../models/aluno.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
 
 part 'aluno.stores.g.dart';
+
 
 // ignore: library_private_types_in_public_api
 class AlunoStores = _AlunoStores with _$AlunoStores;
@@ -28,19 +30,16 @@ abstract class _AlunoStores with Store {
 
   @computed
   bool get getIsClicked => isClicked;
-
-
+  
   @action
-  Future<void> getAluno(String token) async{
+  Future<void> getAluno(Map<String, dynamic> tokens) async{
     
     String url = "$urlRoot/aluno-list/";
-
-    var headers={"Authorization": "Token $token"};
-
+    var headers={"Authorization": "Bearer ${tokens['access']}"};
     http.Response response = await http.get(Uri.parse(url),headers: headers);
-
-    var responseData = json.decode(utf8.decode(response.bodyBytes));
     
+    var responseData = json.decode(utf8.decode(response.bodyBytes));
+  
     curso = Curso.fromJson(responseData[0]["curso"]);
     user = User.fromJson(responseData[0]["user"]);
 
@@ -54,5 +53,3 @@ abstract class _AlunoStores with Store {
 
   }
 }
-
-

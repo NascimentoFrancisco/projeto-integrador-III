@@ -1,19 +1,19 @@
-import 'package:access_control/pages/login/login.dart';
-import 'package:access_control/widgets/botao_voltar.dart';
-import 'package:access_control/widgets/logo.dart';
+
+import 'package:access_control/app/logs/logs.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../widgets/botoes/botoes.dart';
+import '../../widgets/colors/colors.dart';
+import '../../widgets/logos/logos.dart';
 
-import '../../../colors/cores_padroes.dart';
-
-class BodyMyDatas extends StatefulWidget {
-  const BodyMyDatas({super.key});
+class BodyMeusDados extends StatefulWidget {
+  const BodyMeusDados({super.key});
 
   @override
-  State<BodyMyDatas> createState() => _BodyMyDatasState();
+  State<BodyMeusDados> createState() => _BodyMeusDadosState();
 }
 
-class _BodyMyDatasState extends State<BodyMyDatas> {
+class _BodyMeusDadosState extends State<BodyMeusDados> {
 
   String dataNascimento = DateFormat('dd/MM/yyyy').format(DateTime.now());
 

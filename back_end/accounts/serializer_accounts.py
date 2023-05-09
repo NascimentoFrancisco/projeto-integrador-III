@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from curso.serializer_curso import CursoSerializer
 
-from curso.models import Curso
 from aluno.models import Aluno
 from .models import CustomUser
 
@@ -83,3 +82,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()

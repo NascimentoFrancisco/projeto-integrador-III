@@ -1,34 +1,29 @@
-import 'package:access_control/pages/user_page/home_user.dart';
-import 'package:access_control/widgets/botao_voltar.dart';
+
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/botoes/botoes.dart';
 
-class GeneratorQRCode extends StatefulWidget {
-  const GeneratorQRCode({super.key});
+
+class GerarQrCode extends StatefulWidget {
+  const GerarQrCode({super.key});
 
 
   @override
-  State<GeneratorQRCode> createState() => _GeneratorQRCodeState();
+  State<GerarQrCode> createState() => _GerarQrCodeState();
 }
 
-class _GeneratorQRCodeState extends State<GeneratorQRCode> {
+class _GerarQrCodeState extends State<GerarQrCode> {
 
   
-  Map<String, dynamic> dados = {};
+  Map<String, dynamic> dados = {
+    "Tipo": "Entra ou saída",
+    "Token": "Aqui terá um token"
+  };
 
-  @override
-  void initState() {
-    
-    super.initState();
-
-    dados = {
-      "token": loginStores.token!,
-      "Data_hora": DateTime.now().toString(),
-      "tipo": loginStores.getTipo
-    };
-
-  }
+  /* 
+  Aqui terá um código no método initState para gerar um jason para gerar o QRCode
+  */
 
   @override
   Widget build(BuildContext context) {

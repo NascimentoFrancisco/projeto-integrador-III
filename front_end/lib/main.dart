@@ -1,11 +1,9 @@
-
-import 'package:access_control/pages/user_page/home_user.dart';
+import 'package:access_control/app/logs/logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
-void main()async{
-  
+void main()async{ 
   WidgetsFlutterBinding.ensureInitialized(); 
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
@@ -23,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:  HomeUser(),
+      home:  Logs(),
     );
   }
 }

@@ -1,20 +1,20 @@
 
-import 'package:access_control/pages/login/login.dart';
-import 'package:access_control/widgets/botao_voltar.dart';
+import 'package:access_control/app/logs/logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../colors/cores_padroes.dart';
-import '../../user_page/home_user.dart';
+import '../../widgets/botoes/botoes.dart';
+import '../../widgets/colors/colors.dart';
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
+
+class MudarSenha extends StatefulWidget {
+  const MudarSenha({super.key});
 
   @override
-  State<ChangePassword> createState() => _ChangePasswordState();
+  State<MudarSenha> createState() => _MudarSenhaState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _MudarSenhaState extends State<MudarSenha> {
 
   bool obscured = true;
   final textFieldFocusNode = FocusNode();
@@ -202,18 +202,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                               Observer(
                                 builder: (_) {
                                   return ElevatedButton(
-                                    onPressed: loginStores.getClicked 
-                                    ?(){}
-                                    : () async{
-                                     await loginStores.mudaSenha(
+                                    onPressed: alunoLoginStores.getClickLogin ? (){}:() async {
+                                      alunoLoginStores.setClickLogin(true);
+                                      bool senhaMudada = await alunoLoginStores.mudaSenha(
                                         senhaAntigaController.text, 
                                         senhaController.text, 
                                         senhaconfirmController.text, 
                                         alunoStores.aluno!,
-                                        loginStores.token!  
                                       );
 
-                                      if(loginStores.senhaMudada){
+                                      if(senhaMudada){
                                         senhaAntigaController.clear();
                                         senhaController.clear();
                                         senhaconfirmController.clear();
@@ -221,12 +219,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                                       // ignore: use_build_context_synchronously
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
-                                          content: Text(loginStores.messege,
+                                          content: Text(alunoLoginStores.mensagem,
                                             style: TextStyle(
-                                              color: loginStores.senhaMudada ? Colors.black : Colors.white
+                                              color: senhaMudada ? Colors.black : Colors.white
                                             ),
                                           ),
-                                          backgroundColor: loginStores.senhaMudada ? Colors.greenAccent : Colors.redAccent,
+                                          backgroundColor: senhaMudada ? Colors.greenAccent : Colors.redAccent,
                                           action: SnackBarAction(
                                             label: 'Fechar',
                                             textColor: Colors.black,
@@ -238,14 +236,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: azulBotaoSucessoPadrao
                                     ), 
-                                    child: loginStores.getClicked 
-                                      ?const CircularProgressIndicator(
+                                    child: alunoLoginStores.getClickLogin ? 
+                                      const CircularProgressIndicator(
                                         color: Colors.white,
-                                      )  
-                                      :const Text("Salvar",
-                                        style: TextStyle(
-                                          fontSize: 25
-                                        ),
+                                      ):
+                                      const Text("Salvar",
+                                      style: TextStyle(
+                                        fontSize: 25
+                                      ),
                                     )
                                   );
                                 }
