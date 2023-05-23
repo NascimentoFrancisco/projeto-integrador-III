@@ -21,6 +21,9 @@ from accounts.views import (
     AlunoCreateView, AlunoListView, AlunoGetView, AlunoGetViewLog,
     ChangePasswordView, PasswordResetView
 )
+from responsavel.views import (
+    ResponsavelCreateView, ResponsavelGetViewLog, ResponsavelListView
+)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,    
@@ -39,4 +42,7 @@ urlpatterns = [
     path("create", AlunoCreateView.as_view(), name="create_aluno"),
     path("alunos-list/", AlunoListView.as_view(), name="list_aluno"),
     path("aluno-list/", AlunoGetViewLog.as_view(), name="list_aluno_log"),
+    path('responsavel/', ResponsavelCreateView.as_view(), name="responsavel_create"),
+    path("responsavel-list/", ResponsavelGetViewLog.as_view(), name="list_responsavel_log"),
+    path("responsavel-lists/", ResponsavelListView.as_view(), name="list_responsavel"),
 ]
