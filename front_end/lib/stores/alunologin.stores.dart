@@ -95,13 +95,13 @@ abstract class _AlunoLoginStores with Store {
   }
 
   @action// Função que faz login diretamente na API
-  Future<bool> efetuaLogin(String matricula, String password) async {
+  Future<bool> efetuaLogin(String cpf, String password) async {
     setClickLogin(true);
-    if (matricula.isEmpty || password.isEmpty){
+    if (cpf.isEmpty || password.isEmpty){
       mensagem = "Os campos de login não podem ser vazios!";
     }else{      
       String url = "$urlRoot/api/token/";
-      var body = {"matricula": matricula, "password": password};
+      var body = {"cpf": cpf, "password": password};
       http.Response response = await http.post(Uri.parse(url), body: body);
     
       if (response.statusCode == 200){
@@ -149,6 +149,7 @@ abstract class _AlunoLoginStores with Store {
       http.Response response = await http.put(
         Uri.parse(urlChange), headers: headers, body: dados 
       );
+      // ignore: prefer_typing_uninitialized_variables
       var erro;
       
       if (response.statusCode == 200){

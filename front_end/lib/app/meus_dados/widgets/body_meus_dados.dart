@@ -49,7 +49,6 @@ class _BodyMeusDadosState extends State<BodyMeusDados> {
                              
               fazWidgetsDados("Nome:", alunoStores.aluno!.nome),
               fazWidgetsDados("CPF:", alunoStores.aluno!.user.cpf),
-              fazWidgetsDados("Matrícula:", alunoStores.aluno!.user.matricula),
               fazWidgetsDados("Data de nascimento:", alunoStores.aluno!.dataNascimento),
               fazWidgetsDados("Email:", alunoStores.aluno!.user.email),
               fazWidgetsDados("Curso:", alunoStores.aluno!.curso.titulo),

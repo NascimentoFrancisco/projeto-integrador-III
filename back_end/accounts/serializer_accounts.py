@@ -11,7 +11,7 @@ class UserSelializerRead(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ["id", "cpf", "matricula", "email"]
+        fields = ["id", "cpf", "email"]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -21,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ["id", "cpf", "matricula", "email", "password"]
+        fields = ["id", "cpf", "email", "password"]
 
 class AlunoSerializer(serializers.ModelSerializer):
      

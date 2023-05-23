@@ -23,6 +23,13 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
       (_$alunoLogadoComputed ??= Computed<bool>(() => super.alunoLogado,
               name: '_AlunoLoginStores.alunoLogado'))
           .value;
+  Computed<String>? _$getTipoQrCodeComputed;
+
+  @override
+  String get getTipoQrCode =>
+      (_$getTipoQrCodeComputed ??= Computed<String>(() => super.getTipoQrCode,
+              name: '_AlunoLoginStores.getTipoQrCode'))
+          .value;
   Computed<Map<String, dynamic>>? _$getTokensComputed;
 
   @override
@@ -79,6 +86,22 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
     });
   }
 
+  late final _$tipoQrCodeAtom =
+      Atom(name: '_AlunoLoginStores.tipoQrCode', context: context);
+
+  @override
+  String get tipoQrCode {
+    _$tipoQrCodeAtom.reportRead();
+    return super.tipoQrCode;
+  }
+
+  @override
+  set tipoQrCode(String value) {
+    _$tipoQrCodeAtom.reportWrite(value, super.tipoQrCode, () {
+      super.tipoQrCode = value;
+    });
+  }
+
   late final _$tokensAtom =
       Atom(name: '_AlunoLoginStores.tokens', context: context);
 
@@ -115,9 +138,8 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
       AsyncAction('_AlunoLoginStores.efetuaLogin', context: context);
 
   @override
-  Future<bool> efetuaLogin(String matricula, String password) {
-    return _$efetuaLoginAsyncAction
-        .run(() => super.efetuaLogin(matricula, password));
+  Future<bool> efetuaLogin(String cpf, String password) {
+    return _$efetuaLoginAsyncAction.run(() => super.efetuaLogin(cpf, password));
   }
 
   late final _$_AlunoLoginStoresActionController =
@@ -146,14 +168,27 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
   }
 
   @override
+  void setTipoQrcode(String value) {
+    final _$actionInfo = _$_AlunoLoginStoresActionController.startAction(
+        name: '_AlunoLoginStores.setTipoQrcode');
+    try {
+      return super.setTipoQrcode(value);
+    } finally {
+      _$_AlunoLoginStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 mensagem: ${mensagem},
 clickLogin: ${clickLogin},
 logado: ${logado},
+tipoQrCode: ${tipoQrCode},
 tokens: ${tokens},
 getClickLogin: ${getClickLogin},
 alunoLogado: ${alunoLogado},
+getTipoQrCode: ${getTipoQrCode},
 getTokens: ${getTokens}
     ''';
   }

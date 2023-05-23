@@ -67,10 +67,11 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextField(
                             controller: matriculaController,
+                            maxLength: 11,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: textoBrancoPadrao,
-                              labelText: "CPF ou Matrícula",
+                              labelText: "CPF",
                               labelStyle: const TextStyle(
                                 color:Colors.black
                               ), 
@@ -171,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                                       bool log = await alunoLoginStores.efetuaLogin(matriculaController.text, senhaController.text);
                                       if(log){
                                         // ignore: use_build_context_synchronously
-                                        Navigator.push(context,
+                                        Navigator.pushReplacement(context,
                                           MaterialPageRoute(builder: (context) => const Logs())
                                         );
                                       } else{

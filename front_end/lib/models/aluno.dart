@@ -17,16 +17,14 @@ class Curso{
 class User{
   int id;
   String cpf;
-  String matricula;
   String email;
   String password = "";
 
-  User({required this.id, required this.cpf, required this.matricula, required this.email});
+  User({required this.id, required this.cpf, required this.email});
 
   User.fromJson(Map<String, dynamic> json)
    :id = json["id"],
     cpf = json["cpf"],
-    matricula = json["matricula"],
     email = json["email"];
 
 }

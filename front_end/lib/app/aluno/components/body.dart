@@ -179,7 +179,7 @@ class _BodyState extends State<Body> {
                         bool logout = await alunoLoginStores.apagaTokens();
                         if(!logout){
                           // ignore: use_build_context_synchronously
-                          Navigator.push(context,
+                          Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => const Logs())
                           );
                         }

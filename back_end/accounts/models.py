@@ -10,10 +10,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         "CPF", max_length=11, null=True, blank=True, unique=True,
         error_messages={"unique":"Este CPF já está cadastrada no sistema."}
     )
-    matricula = models.CharField(
-        "Matrícula", max_length=20, unique=True,
-        error_messages={"unique":"Esta matrícula já está cadastrada no sistema."}
-    )
+
     email = models.EmailField(
         "Email", unique=True, 
         error_messages={"unique":"Este email já está cadastrado no sistema."}
@@ -23,12 +20,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    USERNAME_FIELD = "matricula"
-    REQUIRED_FIELDS = ["cpf", "email"]
+    USERNAME_FIELD = "cpf"
+    REQUIRED_FIELDS = ["email"]
 
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.matricula
+        return self.cpf
 
         
