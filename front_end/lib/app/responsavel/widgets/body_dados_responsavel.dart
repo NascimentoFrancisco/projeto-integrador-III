@@ -1,20 +1,19 @@
-import 'package:access_control/app/logs/logs.dart';
+
+import 'package:access_control/app/inicio/inicio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../widgets/botoes/botoes.dart';
 import '../../widgets/colors/colors.dart';
 import '../../widgets/logos/logos.dart';
 
-class BodyMeusDados extends StatefulWidget {
-  const BodyMeusDados({super.key});
+class BodyMeusDadosResponsavel extends StatefulWidget {
+  const BodyMeusDadosResponsavel({super.key});
 
   @override
-  State<BodyMeusDados> createState() => _BodyMeusDadosState();
+  State<BodyMeusDadosResponsavel> createState() => _BodyMeusDadosResponsavelState();
 }
 
-class _BodyMeusDadosState extends State<BodyMeusDados> {
-
-  String dataNascimento = DateFormat('dd/MM/yyyy').format(DateTime.now());
+class _BodyMeusDadosResponsavelState extends State<BodyMeusDadosResponsavel> {
 
 
   @override
@@ -45,12 +44,11 @@ class _BodyMeusDadosState extends State<BodyMeusDados> {
               const SizedBox(
                 height: 10,
               ),
-              fazWidgetsDados("Nome:", alunoStores.aluno!.nome),
-              fazWidgetsDados("CPF:", alunoStores.aluno!.user.cpf),
-              fazWidgetsDados("Data de nascimento:", alunoStores.aluno!.dataNascimento),
-              fazWidgetsDados("Email:", alunoStores.aluno!.user.email),
-              fazWidgetsDados("Curso:", alunoStores.aluno!.curso.titulo),
-              fazWidgetsDados("Turno:", alunoStores.aluno!.curso.turno),
+
+              fazWidgetsDados("Nome:", responsavelStores.responsavel!.nome),
+              fazWidgetsDados("CPF:", responsavelStores.responsavel!.user.cpf),
+              fazWidgetsDados("Data de nascimento:", responsavelStores.responsavel!.dataNascimento),
+              fazWidgetsDados("Email:", responsavelStores.responsavel!.user.email),
               
               retornaBotaoVoltarEsquerto(context),
             ],

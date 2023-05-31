@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/aluno.dart';
+import '../models/responsavel.dart';
 
 
 part 'alunologin.stores.g.dart';
@@ -139,6 +140,45 @@ abstract class _AlunoLoginStores with Store {
       await atualizaTokenAccess();
 
       String urlChange = "$urlRoot/change_password/${aluno.user.id}/";
+      Map<String, dynamic> dados = {
+        "old_password": senhaAntiga, 
+        "password": senha,
+        "password2": confirmaSenha
+      };
+    
+      Map<String, String> headers ={"Authorization": "Bearer ${getTokens['access']}"};
+      http.Response response = await http.put(
+        Uri.parse(urlChange), headers: headers, body: dados 
+      );
+      // ignore: prefer_typing_uninitialized_variables
+      var erro;
+      
+      if (response.statusCode == 200){
+        mensagem = "Senha alterada com sucesso!";
+        setClickLogin(false);
+        return true;
+      }else if (response.statusCode == 400){
+        erro = json.decode(utf8.decode(response.bodyBytes));
+        try{
+          mensagem = erro['old_password']['old_password'];
+        } on NoSuchMethodError {
+          mensagem = erro['password'][0];
+        }
+      }
+    }
+    setClickLogin(false);
+    return false;
+  }
+
+  Future<bool> mudaSenhaResponsavel(String senhaAntiga, String senha, String confirmaSenha, Responsavel responsavel)async{
+    if (senhaAntiga.isEmpty || senha.isEmpty || confirmaSenha.isEmpty){
+      mensagem = "Nenhum dos campos podem ser vazios!";
+      setClickLogin(false);
+      return false;
+    } else{
+      await atualizaTokenAccess();
+
+      String urlChange = "$urlRoot/change_password/${responsavel.user.id}/";
       Map<String, dynamic> dados = {
         "old_password": senhaAntiga, 
         "password": senha,

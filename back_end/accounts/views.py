@@ -7,13 +7,15 @@ from django.utils.crypto import get_random_string
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-
-from aluno.models import Aluno
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from aluno.models import Aluno, AlunoHistorico
+from rest_framework_simplejwt.tokens import AccessToken
 from .models import CustomUser
 from .serializer_accounts import (
     AlunoSerializer, AlunoListSerializer, ChangePasswordSerializer,
-    PasswordResetSerializer
+    PasswordResetSerializer, HistoricoSerializaer
 )
 # Create your views here.
 
@@ -95,3 +97,35 @@ class PasswordResetView(GenericAPIView):
             {"detail":"Sua senha redefenida, sua nova senha foi enviada no seu email."},
             status=status.HTTP_200_OK
         )
+
+
+class TokenVerificationView(APIView):
+
+    def post(self, request):
+        """ {'token': fnjsfhfj, 'tipo': Entra ou Saida} """
+        token = request.data.get('token')
+        movimentacao = request.data.get('movimentacao')
+        if token:
+            try:
+                decoded_token = AccessToken(token)
+                user_id = decoded_token['user_id']
+                aluno = Aluno.objects.get(user__id=user_id)
+                aluno_historico = AlunoHistorico.objects.create(
+                    tipo_movimentacao = movimentacao, aluno=aluno,
+                )
+                aluno_historico.save()
+                
+                if aluno_historico:
+                    return Response({'valid': True, 'message': 'Autorizado'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'valid': False, 'message': 'Não autorizado'}, status=status.HTTP_400_BAD_REQUEST)
+            except:
+                pass       
+        return Response({'valid': False, 'message': 'Não autorizado'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+#Mudar essa view para ser autenticada e com uma condição de listagem
+class GetHistoricoAlunos(generics.ListAPIView):
+
+    queryset = AlunoHistorico.objects.all()
+    serializer_class = HistoricoSerializaer

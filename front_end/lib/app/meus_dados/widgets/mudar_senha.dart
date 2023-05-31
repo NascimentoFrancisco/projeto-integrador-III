@@ -1,4 +1,5 @@
 
+import 'package:access_control/app/inicio/inicio.dart';
 import 'package:access_control/app/logs/logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -204,12 +205,23 @@ class _MudarSenhaState extends State<MudarSenha> {
                                   return ElevatedButton(
                                     onPressed: alunoLoginStores.getClickLogin ? (){}:() async {
                                       alunoLoginStores.setClickLogin(true);
-                                      bool senhaMudada = await alunoLoginStores.mudaSenha(
-                                        senhaAntigaController.text, 
-                                        senhaController.text, 
-                                        senhaconfirmController.text, 
-                                        alunoStores.aluno!,
-                                      );
+                                      bool senhaMudada = false;
+                                      if (!appStores.getUserResponsavel){
+                                          senhaMudada = await alunoLoginStores.mudaSenha(
+                                          senhaAntigaController.text, 
+                                          senhaController.text, 
+                                          senhaconfirmController.text, 
+                                          alunoStores.aluno!,
+                                        );
+                                      }else{
+                                          senhaMudada = await alunoLoginStores.mudaSenhaResponsavel(
+                                          senhaAntigaController.text, 
+                                          senhaController.text, 
+                                          senhaconfirmController.text, 
+                                          responsavelStores.responsavel!,
+                                        );
+                                      }
+                                      
 
                                       if(senhaMudada){
                                         senhaAntigaController.clear();

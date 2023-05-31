@@ -20,3 +20,13 @@ class Aluno(models.Model):
 
     def __str__(self):
         return self.nome
+
+
+class AlunoHistorico(models.Model):
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+    tipo_movimentacao = models.CharField(max_length=15)
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.aluno.nome

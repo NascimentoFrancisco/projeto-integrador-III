@@ -19,7 +19,8 @@ from django.urls import path, include
 from rest_framework import routers
 from accounts.views import (
     AlunoCreateView, AlunoListView, AlunoGetView, AlunoGetViewLog,
-    ChangePasswordView, PasswordResetView
+    ChangePasswordView, PasswordResetView, TokenVerificationView,
+    GetHistoricoAlunos
 )
 from responsavel.views import (
     ResponsavelCreateView, ResponsavelGetViewLog, ResponsavelListView
@@ -35,6 +36,7 @@ router.register(r'alunos', AlunoGetView)
 urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerificationView.as_view(), name='token_verify'),
     path('change_password/<int:pk>/', ChangePasswordView.as_view(), name='auth_change_password'),
     path('reset-password/', PasswordResetView.as_view()),
     path('admin/', admin.site.urls),
@@ -45,4 +47,7 @@ urlpatterns = [
     path('responsavel/', ResponsavelCreateView.as_view(), name="responsavel_create"),
     path("responsavel-list/", ResponsavelGetViewLog.as_view(), name="list_responsavel_log"),
     path("responsavel-lists/", ResponsavelListView.as_view(), name="list_responsavel"),
+
+    #Fazer autenticação para essa view
+    path('historico/', GetHistoricoAlunos.as_view(), name='historico'),
 ]

@@ -1,10 +1,16 @@
 
+import 'package:access_control/stores/app.stores.dart';
+import 'package:access_control/stores/responsavel.stores.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+
 
 import '../login/login.dart';
 import '../widgets/colors/colors.dart';
 import '../widgets/logos/logos.dart';
 
+ResponsavelStores responsavelStores = ResponsavelStores();
+AppStores appStores = AppStores();
 
 class Inicio extends StatefulWidget {
   const Inicio({super.key});
@@ -53,28 +59,41 @@ class _InicioState extends State<Inicio> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => const LoginPage())
-                              );  
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: azulBotaoSucessoPadrao,
-                              minimumSize: const Size(300, 50)
-                            ), 
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Entrar como aluno",
-                                  style: TextStyle(
-                                    color: textoBrancoPadrao,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                          child: Observer(
+                            builder: (context){
+                              return ElevatedButton(
+                                onPressed: appStores.getClicked ? null : () async {
+                                  appStores.setClicked();
+                                  await appStores.setAluno();
+                                  appStores.setClicked();
+
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => const LoginPage())
+                                  );  
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: azulBotaoSucessoPadrao,
+                                  minimumSize: const Size(300, 50)
+                                ), 
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: appStores.getClicked ? 
+                                        const CircularProgressIndicator()
+                                      :Text("Entrar como aluno",
+                                        style: TextStyle(
+                                          color: textoBrancoPadrao,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
+                              );
+                            },
                           )
                         ),
                         const SizedBox(
@@ -82,24 +101,40 @@ class _InicioState extends State<Inicio> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            onPressed: (){},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: azulBotaoSucessoPadrao,
-                              minimumSize: const Size(300, 50)
-                            ), 
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Entrar como responsável",
-                                  style: TextStyle(
-                                    color: textoBrancoPadrao,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                          child: Observer(
+                            builder: (context){
+                              return ElevatedButton(
+                                onPressed: appStores.getClicked ? null : () async {
+                                  appStores.setClicked();
+                                  await appStores.setResponsavel();
+                                  appStores.setClicked();
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => const LoginPage())
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: azulBotaoSucessoPadrao,
+                                  minimumSize: const Size(300, 50)
+                                ), 
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: appStores.getClicked ? 
+                                        const CircularProgressIndicator()
+                                      :Text("Entrar como responsável",
+                                        style: TextStyle(
+                                          color: textoBrancoPadrao,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
+                              );
+                            }
                           ),
                         ),
                         const SizedBox(

@@ -1,4 +1,3 @@
-
 import 'package:access_control/app/logs/logs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -169,29 +168,28 @@ class _LoginPageState extends State<LoginPage> {
                                   return ElevatedButton(
                                     onPressed: alunoLoginStores.getClickLogin ? () {}: () async {
                                       FocusScope.of(context).requestFocus(FocusNode());
-                                      bool log = await alunoLoginStores.efetuaLogin(matriculaController.text, senhaController.text);
-                                      if(log){
-                                        // ignore: use_build_context_synchronously
-                                        Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context) => const Logs())
-                                        );
-                                      } else{
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(alunoLoginStores.mensagem,
-                                              style: const TextStyle(color: Colors.white)
-                                            ),
-                                            backgroundColor: Colors.redAccent,
-                                            action: SnackBarAction(
-                                              label: 'Fechar',
-                                              textColor: Colors.black,
-                                              onPressed: (){},
-                                            ),
-                                          )
-                                        );
-                                      }
-                                      
+                                        bool log = await alunoLoginStores.efetuaLogin(matriculaController.text, senhaController.text);
+                                        if(log){
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.pushReplacement(context,
+                                            MaterialPageRoute(builder: (context) => const Logs())
+                                          );
+                                        } else{
+                                          // ignore: use_build_context_synchronously
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text(alunoLoginStores.mensagem,
+                                                style: const TextStyle(color: Colors.white)
+                                              ),
+                                              backgroundColor: Colors.redAccent,
+                                              action: SnackBarAction(
+                                                label: 'Fechar',
+                                                textColor: Colors.black,
+                                                onPressed: (){},
+                                              ),
+                                            )
+                                          );
+                                        }                                      
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color.fromARGB(255, 4, 57, 170),

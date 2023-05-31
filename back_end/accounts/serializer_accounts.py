@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from curso.serializer_curso import CursoSerializer
 
-from aluno.models import Aluno
+from aluno.models import Aluno, AlunoHistorico
 from .models import CustomUser
 
 class UserSelializerRead(serializers.ModelSerializer):
@@ -86,3 +86,10 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
+
+class HistoricoSerializaer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AlunoHistorico
+        fields = "__all__"
