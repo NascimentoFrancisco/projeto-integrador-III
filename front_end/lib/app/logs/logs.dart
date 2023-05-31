@@ -28,16 +28,16 @@ class _LogsState extends State<Logs> {
       if(value){
         await alunoLoginStores.atualizaTokenAccess();
         await appStores.atualizaUserTipo();
-        if (!appStores.getUserResponsavel){
-          await alunoStores.getAluno(alunoLoginStores.getTokens);
-          // ignore: use_build_context_synchronously
-          Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const Home())
-          );
-        }else{
+        if (appStores.getUserResponsavel){
           await responsavelStores.getResponsavel(alunoLoginStores.getTokens);
           // ignore: use_build_context_synchronously
           Navigator.pushReplacement(context, 
+            MaterialPageRoute(builder: (context) => const Home())
+          );
+        }else{
+          await alunoStores.getAluno(alunoLoginStores.getTokens);
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const Home())
           );
         }

@@ -5,6 +5,7 @@ from curso.serializer_curso import CursoSerializer
 from aluno.models import Aluno, AlunoHistorico
 from .models import CustomUser
 
+
 class UserSelializerRead(serializers.ModelSerializer):
 
     id = serializers.IntegerField(read_only=True)
@@ -30,7 +31,7 @@ class AlunoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Aluno
-        fields = ["id", "nome", "data_nascimento", "curso", "user"]
+        fields = ["id", "nome", "data_nascimento", "curso", "responsavel", "user"]
 
     def create(self, validated_data):
         

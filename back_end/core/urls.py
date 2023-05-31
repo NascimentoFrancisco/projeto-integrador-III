@@ -20,7 +20,7 @@ from rest_framework import routers
 from accounts.views import (
     AlunoCreateView, AlunoListView, AlunoGetView, AlunoGetViewLog,
     ChangePasswordView, PasswordResetView, TokenVerificationView,
-    GetHistoricoAlunos
+    GetHistoricoAlunos, GetAulonsPeloIdResponsavel
 )
 from responsavel.views import (
     ResponsavelCreateView, ResponsavelGetViewLog, ResponsavelListView
@@ -42,6 +42,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(router.urls)),
     path("create", AlunoCreateView.as_view(), name="create_aluno"),
+    path('aluno-responsavel/<int:id>/', GetAulonsPeloIdResponsavel.as_view(), name='get_aluno_id_responsavel'),
     path("alunos-list/", AlunoListView.as_view(), name="list_aluno"),
     path("aluno-list/", AlunoGetViewLog.as_view(), name="list_aluno_log"),
     path('responsavel/', ResponsavelCreateView.as_view(), name="responsavel_create"),

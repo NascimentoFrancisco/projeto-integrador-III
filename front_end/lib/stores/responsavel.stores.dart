@@ -17,10 +17,29 @@ abstract class _ResponsavelStores with Store {
   String urlRoot = dotenv.get('API_ROOT_URL');
 
   @observable
+  bool clickedBotao = false;
+
+  @observable
   Responsavel? responsavel;
 
   @observable
   User? user;
+
+  @observable/* Lista de alunos desse responsável */
+  List<Aluno> listaAlunos = [];
+
+  @action
+  void limpaListaalunos(){
+    listaAlunos.clear();
+  }
+
+  @action
+  void setClickedBotao(bool value){
+    clickedBotao = value;
+  }
+
+  @computed
+  bool get getClickedBotao => clickedBotao;
 
   @action
   Future<void> getResponsavel(Map<String, dynamic> tokens) async{
@@ -30,7 +49,6 @@ abstract class _ResponsavelStores with Store {
     http.Response response = await http.get(Uri.parse(url),headers: headers);
     
     var responseData = json.decode(utf8.decode(response.bodyBytes));
-  
     user = User.fromJson(responseData[0]["user"]);
 
     responsavel = Responsavel(
@@ -39,7 +57,31 @@ abstract class _ResponsavelStores with Store {
       dataNascimento: DateTime.parse(responseData[0]["data_nascimento"]),
       user: user!,
     );
+  }
 
+  @action
+  Future<void> getAlunoResponsavel(Map<String, dynamic> tokens) async{
+  
+    limpaListaalunos();
+
+    String url = "$urlRoot/aluno-responsavel/${responsavel!.id}/";
+    var headers={"Authorization": "Bearer ${tokens['access']}"};
+    http.Response response = await http.get(Uri.parse(url),headers: headers);
+    
+    List<dynamic> responseData = json.decode(utf8.decode(response.bodyBytes));
+
+    for (var element in responseData) { 
+      Curso curso = Curso.fromJson(element["curso"]);
+      User userAluno = User.fromJson(element["user"]);
+      Aluno aluno = Aluno(
+        id: element["id"], 
+        nome: element["nome"], 
+        dataNascimento: DateTime.parse(element["data_nascimento"]),
+        curso: curso,
+        user: userAluno,
+      );
+      listaAlunos.add(aluno);
+    }
   }
 
 }

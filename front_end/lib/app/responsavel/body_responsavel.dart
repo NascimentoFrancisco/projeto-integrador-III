@@ -1,5 +1,6 @@
 import 'package:access_control/app/inicio/inicio.dart';
 import 'package:access_control/app/responsavel/meus_dados.dart';
+import 'package:access_control/app/responsavel/responsavelalunos/responsavel_alunos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -87,12 +88,22 @@ class _BodyResponsavelState extends State<BodyResponsavel> {
                 builder: (context){
                   return Center(
                     child: ElevatedButton(
-                      onPressed: /* responsavelStores.responsavel?.nome == null ? */ (){},
+                      onPressed: responsavelStores.getClickedBotao ? (){}:() async {
+                        
+                        responsavelStores.setClickedBotao(true);
+                        await alunoLoginStores.atualizaTokenAccess();
+                        await responsavelStores.getAlunoResponsavel(alunoLoginStores.getTokens);
+                        responsavelStores.setClickedBotao(false);
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const ResponsavelAlunos())
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: azulBotaoSucessoPadrao,
                         minimumSize: const Size(300, 50)
                       ), 
-                      child: Text("Ver histórico aluno(s)",
+                      child: Text(responsavelStores.getClickedBotao ? "Aguarde..." :"Ver histórico aluno(s)",
                         style: TextStyle(
                           color: textoBrancoPadrao,
                           fontSize: 22,

@@ -67,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                           TextField(
                             controller: matriculaController,
                             maxLength: 11,
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: textoBrancoPadrao,

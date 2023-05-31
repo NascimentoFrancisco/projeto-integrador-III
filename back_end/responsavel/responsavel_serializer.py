@@ -20,7 +20,7 @@ class ResposanvelSerializer(serializers.ModelSerializer):
         user = CustomUser.objects.create(**user_data)
         user.set_password(password)
         user.save()
-        responsavel =  Responsavel.objects.create(user = user, **validated_data)
+        responsavel = Responsavel.objects.create(user = user, **validated_data)
         
         return responsavel
 

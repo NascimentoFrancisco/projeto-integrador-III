@@ -124,6 +124,15 @@ class TokenVerificationView(APIView):
         return Response({'valid': False, 'message': 'Não autorizado'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class GetAulonsPeloIdResponsavel(generics.ListAPIView):
+    
+    permission_classes = [IsAuthenticated]
+    serializer_class = AlunoListSerializer
+
+    def get_queryset(self):
+        return Aluno.objects.filter(responsavel__id=self.kwargs["id"])
+
+
 #Mudar essa view para ser autenticada e com uma condição de listagem
 class GetHistoricoAlunos(generics.ListAPIView):
 

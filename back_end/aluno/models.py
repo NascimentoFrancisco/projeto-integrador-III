@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings 
 
 from curso.models import Curso
+from responsavel.models import Responsavel
 # Create your models here.
 
 class Aluno(models.Model):
@@ -11,6 +12,10 @@ class Aluno(models.Model):
     curso = models.ForeignKey(
         Curso, on_delete=models.PROTECT,
         verbose_name="Curso"
+    )
+    responsavel = models.ForeignKey(
+        Responsavel, on_delete=models.CASCADE,
+        verbose_name="Responsável"
     )
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
