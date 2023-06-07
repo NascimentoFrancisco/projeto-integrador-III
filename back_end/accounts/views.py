@@ -75,7 +75,6 @@ class PasswordResetView(GenericAPIView):
             )
         
         new_password = get_random_string(length=8)
-        
         msg = f"""
         Olá {user.aluno.nome}, você solicitou uma redefinição de senha, aabaixo está sua nova senha.\n
         Nova senha: {new_password}\n
@@ -133,8 +132,10 @@ class GetAulonsPeloIdResponsavel(generics.ListAPIView):
         return Aluno.objects.filter(responsavel__id=self.kwargs["id"])
 
 
-#Mudar essa view para ser autenticada e com uma condição de listagem
 class GetHistoricoAlunos(generics.ListAPIView):
 
-    queryset = AlunoHistorico.objects.all()
+    permission_classes = [IsAuthenticated]
     serializer_class = HistoricoSerializaer
+
+    def get_queryset(self):
+        return AlunoHistorico.objects.filter(aluno__id=self.kwargs['id'])

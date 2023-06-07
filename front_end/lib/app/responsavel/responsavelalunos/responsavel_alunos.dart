@@ -1,6 +1,9 @@
 import 'package:access_control/app/inicio/inicio.dart';
+import 'package:access_control/app/logs/logs.dart';
+import 'package:access_control/app/responsavel/aluno_historico/aluno_historico.dart';
 import 'package:access_control/models/aluno.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../widgets/botoes/botoes.dart';
 import '../../widgets/colors/colors.dart';
@@ -97,62 +100,75 @@ class _ResponsavelAlunosState extends State<ResponsavelAlunos> {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         width: MediaQuery.of(context).size.height*1,
-        child: ElevatedButton(
-          onPressed: (){},
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            backgroundColor: azulBotaoSucessoPadrao,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
+        child: Observer(
+          builder: (context){
+            return ElevatedButton(
+              onPressed: responsavelStores.getClickedBotao ? (){}: () async {
+                responsavelStores.setClickedBotao(true);
+                await alunoLoginStores.atualizaTokenAccess();
+                await responsavelStores.getHistoricoAluno(alunoLoginStores.getTokens, aluno);
+                responsavelStores.setClickedBotao(false);
+                // ignore: use_build_context_synchronously
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AlunoHistorico())
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: azulBotaoSucessoPadrao,
+              ),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6, right: 6, top: 6),
-                    child: Text("Aluno(a):",
-                      style: TextStyle(
-                        color: textoBrancoPadrao,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6, right: 6, top: 6),
+                        child: Text("Aluno(a):",
+                          style: TextStyle(
+                            color: textoBrancoPadrao,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6, right: 6, bottom: 6),
-                    child: Text(aluno.nome,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6, right: 6, bottom: 6),
+                        child: Text(aluno.nome,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6, right: 6, top: 6),
-                    child: Text("Curso:",
-                      style: TextStyle(
-                        color: textoBrancoPadrao,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6, right: 6, top: 6),
+                        child: Text("Curso:",
+                          style: TextStyle(
+                            color: textoBrancoPadrao,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6, right: 6, bottom: 6),
-                    child: Text(aluno.curso.titulo,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6, right: 6, bottom: 6),
+                        child: Text(aluno.curso.titulo,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    ],
+                  )
                 ],
-              )
-            ],
-          ),
+              ),
+            );
+          }
         ),
       )
     );

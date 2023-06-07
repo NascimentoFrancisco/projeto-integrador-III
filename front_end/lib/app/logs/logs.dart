@@ -28,20 +28,65 @@ class _LogsState extends State<Logs> {
       if(value){
         await alunoLoginStores.atualizaTokenAccess();
         await appStores.atualizaUserTipo();
-        if (appStores.getUserResponsavel){
+
+        if(appStores.getUserResponsavel){
           await responsavelStores.getResponsavel(alunoLoginStores.getTokens);
-          // ignore: use_build_context_synchronously
-          Navigator.pushReplacement(context, 
-            MaterialPageRoute(builder: (context) => const Home())
-          );
+
+          if(responsavelStores.responsavel?.nome != null){
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacement(context, 
+              MaterialPageRoute(builder: (context) => const Home())
+            ); 
+          }else{
+            await alunoLoginStores.apagaTokens();
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(responsavelStores.mensagem,
+                  style: const TextStyle(color: Colors.white)
+                ),
+                backgroundColor: Colors.redAccent,
+                action: SnackBarAction(
+                  label: 'Fechar',
+                  textColor: Colors.black,
+                  onPressed: (){},
+                ),
+              )
+            );
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const Inicio())
+            );
+          }
         }else{
           await alunoStores.getAluno(alunoLoginStores.getTokens);
-          // ignore: use_build_context_synchronously
-          Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const Home())
-          );
+          if(alunoStores.aluno?.nome != null){
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacement(context, 
+              MaterialPageRoute(builder: (context) => const Home())
+            ); 
+          }else{
+            await alunoLoginStores.apagaTokens();
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(alunoStores.mensagem,
+                  style: const TextStyle(color: Colors.white)
+                ),
+                backgroundColor: Colors.redAccent,
+                action: SnackBarAction(
+                  label: 'Fechar',
+                  textColor: Colors.black,
+                  onPressed: (){},
+                ),
+              )
+            );
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const Inicio())
+            );
+          }
         }
-        
       }else{
         Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const Inicio())

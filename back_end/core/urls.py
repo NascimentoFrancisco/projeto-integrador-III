@@ -49,6 +49,5 @@ urlpatterns = [
     path("responsavel-list/", ResponsavelGetViewLog.as_view(), name="list_responsavel_log"),
     path("responsavel-lists/", ResponsavelListView.as_view(), name="list_responsavel"),
 
-    #Fazer autenticação para essa view
-    path('historico/', GetHistoricoAlunos.as_view(), name='historico'),
+    path('historico/<int:id>/', GetHistoricoAlunos.as_view(), name='historico'),
 ]

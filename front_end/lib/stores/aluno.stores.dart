@@ -30,6 +30,9 @@ abstract class _AlunoStores with Store {
 
   @computed
   bool get getIsClicked => isClicked;
+
+  @observable
+  String mensagem = "";
   
   @action
   Future<void> getAluno(Map<String, dynamic> tokens) async{
@@ -39,17 +42,20 @@ abstract class _AlunoStores with Store {
     http.Response response = await http.get(Uri.parse(url),headers: headers);
     
     var responseData = json.decode(utf8.decode(response.bodyBytes));
-  
-    curso = Curso.fromJson(responseData[0]["curso"]);
-    user = User.fromJson(responseData[0]["user"]);
-
-    aluno = Aluno(
-      id: responseData[0]["id"], 
-      nome: responseData[0]["nome"], 
-      dataNascimento: DateTime.parse(responseData[0]["data_nascimento"]),
-      curso: curso!,
-      user: user!,
-    );
-
+    
+    try{
+      curso = Curso.fromJson(responseData[0]["curso"]);
+      user = User.fromJson(responseData[0]["user"]);
+      aluno = Aluno(
+        id: responseData[0]["id"], 
+        nome: responseData[0]["nome"], 
+        dataNascimento: DateTime.parse(responseData[0]["data_nascimento"]),
+        curso: curso!,
+        user: user!,
+      );
+    } on RangeError{
+      mensagem = "Nenhum aluno encontrado com esse CPF";
+    }
+        
   }
 }

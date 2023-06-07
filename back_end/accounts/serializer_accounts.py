@@ -1,7 +1,6 @@
+import re
 from rest_framework import serializers
-
 from curso.serializer_curso import CursoSerializer
-
 from aluno.models import Aluno, AlunoHistorico
 from .models import CustomUser
 
@@ -68,6 +67,10 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Os campos de senha não correspondem."})
+        
+        if len(attrs['password']) < 8 or not bool(re.search(r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$', attrs['password'])):
+            msg = "Nova senha inválida, crie uma senha com 8 ou mais caracteres composta por letras e números!"
+            raise serializers.ValidationError({"password": msg})
 
         return attrs
 
@@ -77,7 +80,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"old_password": "A senha antiga não está correta."})
         return value
 
-    def update(self, instance, validated_data):
+    def update(self, instance: CustomUser, validated_data):
 
         instance.set_password(validated_data['password'])
         instance.save()
@@ -89,8 +92,18 @@ class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
 
+class AlunoByHistoricoSerializer(serializers.ModelSerializer):
+     
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Aluno
+        fields = ["id", "nome", "data_nascimento"]
+
 class HistoricoSerializaer(serializers.ModelSerializer):
+    
+    aluno = AlunoByHistoricoSerializer()
 
     class Meta:
         model = AlunoHistorico
-        fields = "__all__"
+        fields = ["id", "criado_em", "tipo_movimentacao", "aluno"]

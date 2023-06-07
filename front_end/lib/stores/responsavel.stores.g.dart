@@ -81,6 +81,38 @@ mixin _$ResponsavelStores on _ResponsavelStores, Store {
     });
   }
 
+  late final _$listHistoricoAlunoAtom =
+      Atom(name: '_ResponsavelStores.listHistoricoAluno', context: context);
+
+  @override
+  List<HistoricoAluno> get listHistoricoAluno {
+    _$listHistoricoAlunoAtom.reportRead();
+    return super.listHistoricoAluno;
+  }
+
+  @override
+  set listHistoricoAluno(List<HistoricoAluno> value) {
+    _$listHistoricoAlunoAtom.reportWrite(value, super.listHistoricoAluno, () {
+      super.listHistoricoAluno = value;
+    });
+  }
+
+  late final _$mensagemAtom =
+      Atom(name: '_ResponsavelStores.mensagem', context: context);
+
+  @override
+  String get mensagem {
+    _$mensagemAtom.reportRead();
+    return super.mensagem;
+  }
+
+  @override
+  set mensagem(String value) {
+    _$mensagemAtom.reportWrite(value, super.mensagem, () {
+      super.mensagem = value;
+    });
+  }
+
   late final _$getResponsavelAsyncAction =
       AsyncAction('_ResponsavelStores.getResponsavel', context: context);
 
@@ -96,6 +128,15 @@ mixin _$ResponsavelStores on _ResponsavelStores, Store {
   Future<void> getAlunoResponsavel(Map<String, dynamic> tokens) {
     return _$getAlunoResponsavelAsyncAction
         .run(() => super.getAlunoResponsavel(tokens));
+  }
+
+  late final _$getHistoricoAlunoAsyncAction =
+      AsyncAction('_ResponsavelStores.getHistoricoAluno', context: context);
+
+  @override
+  Future<void> getHistoricoAluno(Map<String, dynamic> tokens, Aluno aluno) {
+    return _$getHistoricoAlunoAsyncAction
+        .run(() => super.getHistoricoAluno(tokens, aluno));
   }
 
   late final _$_ResponsavelStoresActionController =
@@ -130,6 +171,8 @@ clickedBotao: ${clickedBotao},
 responsavel: ${responsavel},
 user: ${user},
 listaAlunos: ${listaAlunos},
+listHistoricoAluno: ${listHistoricoAluno},
+mensagem: ${mensagem},
 getClickedBotao: ${getClickedBotao}
     ''';
   }

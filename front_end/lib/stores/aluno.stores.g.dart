@@ -78,6 +78,22 @@ mixin _$AlunoStores on _AlunoStores, Store {
     });
   }
 
+  late final _$mensagemAtom =
+      Atom(name: '_AlunoStores.mensagem', context: context);
+
+  @override
+  String get mensagem {
+    _$mensagemAtom.reportRead();
+    return super.mensagem;
+  }
+
+  @override
+  set mensagem(String value) {
+    _$mensagemAtom.reportWrite(value, super.mensagem, () {
+      super.mensagem = value;
+    });
+  }
+
   late final _$getAlunoAsyncAction =
       AsyncAction('_AlunoStores.getAluno', context: context);
 
@@ -93,6 +109,7 @@ curso: ${curso},
 user: ${user},
 aluno: ${aluno},
 isClicked: ${isClicked},
+mensagem: ${mensagem},
 getIsClicked: ${getIsClicked}
     ''';
   }
