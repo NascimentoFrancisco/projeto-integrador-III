@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobx/mobx.dart';
@@ -60,6 +61,40 @@ abstract class _AlunoLoginStores with Store {
 
   @computed
   Map<String, dynamic> get getTokens => tokens;
+
+  @observable
+  Map<String, String> dadosQrCode = {"Tipo":"", "Token":""};
+
+  @observable
+  int contSegundosQrcode = 30;
+
+  @computed
+  int get getcontSegundosQrcode => contSegundosQrcode;
+
+  @computed
+  Map<String, String> get getDadosQrCode => dadosQrCode;
+
+  @observable
+  bool dadosQrCodeValido = false;
+
+  @computed
+  bool get getDadosQrCodeValido => dadosQrCodeValido;
+
+  @action
+  void setContSegundosQrcode(int value){
+    contSegundosQrcode = value;
+  }
+
+  @action
+  void setDadosQrCode(){
+    dadosQrCode["Tipo"] = tipoQrCode;
+    dadosQrCode["Token"] = tokens["access"];
+    setDadosQrCodeValido(true);
+  }
+
+  void setDadosQrCodeValido(bool value){
+    dadosQrCodeValido = value;
+  }
  
   @action//Função que busca o token do aluno para validar se o mesmoestá logado
   Future<bool> checkLogin() async {
@@ -233,4 +268,23 @@ abstract class _AlunoLoginStores with Store {
     }
     return false;
   }
+
+  @action
+  void countSeconds() {
+    int count = 30;
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      count--;
+      setContSegundosQrcode(count);
+
+      if (dadosQrCodeValido == false){
+        timer.cancel();
+        setContSegundosQrcode(30);
+      }
+      if (count == 0) {
+        timer.cancel();
+        setDadosQrCodeValido(false);
+      }
+    });
+  }
+
 }

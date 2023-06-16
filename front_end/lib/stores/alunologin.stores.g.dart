@@ -37,6 +37,27 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
           Computed<Map<String, dynamic>>(() => super.getTokens,
               name: '_AlunoLoginStores.getTokens'))
       .value;
+  Computed<int>? _$getcontSegundosQrcodeComputed;
+
+  @override
+  int get getcontSegundosQrcode => (_$getcontSegundosQrcodeComputed ??=
+          Computed<int>(() => super.getcontSegundosQrcode,
+              name: '_AlunoLoginStores.getcontSegundosQrcode'))
+      .value;
+  Computed<Map<String, String>>? _$getDadosQrCodeComputed;
+
+  @override
+  Map<String, String> get getDadosQrCode => (_$getDadosQrCodeComputed ??=
+          Computed<Map<String, String>>(() => super.getDadosQrCode,
+              name: '_AlunoLoginStores.getDadosQrCode'))
+      .value;
+  Computed<bool>? _$getDadosQrCodeValidoComputed;
+
+  @override
+  bool get getDadosQrCodeValido => (_$getDadosQrCodeValidoComputed ??=
+          Computed<bool>(() => super.getDadosQrCodeValido,
+              name: '_AlunoLoginStores.getDadosQrCodeValido'))
+      .value;
 
   late final _$mensagemAtom =
       Atom(name: '_AlunoLoginStores.mensagem', context: context);
@@ -118,6 +139,54 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
     });
   }
 
+  late final _$dadosQrCodeAtom =
+      Atom(name: '_AlunoLoginStores.dadosQrCode', context: context);
+
+  @override
+  Map<String, String> get dadosQrCode {
+    _$dadosQrCodeAtom.reportRead();
+    return super.dadosQrCode;
+  }
+
+  @override
+  set dadosQrCode(Map<String, String> value) {
+    _$dadosQrCodeAtom.reportWrite(value, super.dadosQrCode, () {
+      super.dadosQrCode = value;
+    });
+  }
+
+  late final _$contSegundosQrcodeAtom =
+      Atom(name: '_AlunoLoginStores.contSegundosQrcode', context: context);
+
+  @override
+  int get contSegundosQrcode {
+    _$contSegundosQrcodeAtom.reportRead();
+    return super.contSegundosQrcode;
+  }
+
+  @override
+  set contSegundosQrcode(int value) {
+    _$contSegundosQrcodeAtom.reportWrite(value, super.contSegundosQrcode, () {
+      super.contSegundosQrcode = value;
+    });
+  }
+
+  late final _$dadosQrCodeValidoAtom =
+      Atom(name: '_AlunoLoginStores.dadosQrCodeValido', context: context);
+
+  @override
+  bool get dadosQrCodeValido {
+    _$dadosQrCodeValidoAtom.reportRead();
+    return super.dadosQrCodeValido;
+  }
+
+  @override
+  set dadosQrCodeValido(bool value) {
+    _$dadosQrCodeValidoAtom.reportWrite(value, super.dadosQrCodeValido, () {
+      super.dadosQrCodeValido = value;
+    });
+  }
+
   late final _$checkLoginAsyncAction =
       AsyncAction('_AlunoLoginStores.checkLogin', context: context);
 
@@ -179,6 +248,28 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
   }
 
   @override
+  void setContSegundosQrcode(int value) {
+    final _$actionInfo = _$_AlunoLoginStoresActionController.startAction(
+        name: '_AlunoLoginStores.setContSegundosQrcode');
+    try {
+      return super.setContSegundosQrcode(value);
+    } finally {
+      _$_AlunoLoginStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDadosQrCode() {
+    final _$actionInfo = _$_AlunoLoginStoresActionController.startAction(
+        name: '_AlunoLoginStores.setDadosQrCode');
+    try {
+      return super.setDadosQrCode();
+    } finally {
+      _$_AlunoLoginStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 mensagem: ${mensagem},
@@ -186,10 +277,16 @@ clickLogin: ${clickLogin},
 logado: ${logado},
 tipoQrCode: ${tipoQrCode},
 tokens: ${tokens},
+dadosQrCode: ${dadosQrCode},
+contSegundosQrcode: ${contSegundosQrcode},
+dadosQrCodeValido: ${dadosQrCodeValido},
 getClickLogin: ${getClickLogin},
 alunoLogado: ${alunoLogado},
 getTipoQrCode: ${getTipoQrCode},
-getTokens: ${getTokens}
+getTokens: ${getTokens},
+getcontSegundosQrcode: ${getcontSegundosQrcode},
+getDadosQrCode: ${getDadosQrCode},
+getDadosQrCodeValido: ${getDadosQrCodeValido}
     ''';
   }
 }

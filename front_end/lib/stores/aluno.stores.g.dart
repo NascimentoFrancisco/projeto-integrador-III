@@ -9,6 +9,13 @@ part of 'aluno.stores.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AlunoStores on _AlunoStores, Store {
+  Computed<bool>? _$getalunoInstanciadoComputed;
+
+  @override
+  bool get getalunoInstanciado => (_$getalunoInstanciadoComputed ??=
+          Computed<bool>(() => super.getalunoInstanciado,
+              name: '_AlunoStores.getalunoInstanciado'))
+      .value;
   Computed<bool>? _$getIsClickedComputed;
 
   @override
@@ -78,6 +85,22 @@ mixin _$AlunoStores on _AlunoStores, Store {
     });
   }
 
+  late final _$alunoInstanciadoAtom =
+      Atom(name: '_AlunoStores.alunoInstanciado', context: context);
+
+  @override
+  bool get alunoInstanciado {
+    _$alunoInstanciadoAtom.reportRead();
+    return super.alunoInstanciado;
+  }
+
+  @override
+  set alunoInstanciado(bool value) {
+    _$alunoInstanciadoAtom.reportWrite(value, super.alunoInstanciado, () {
+      super.alunoInstanciado = value;
+    });
+  }
+
   late final _$mensagemAtom =
       Atom(name: '_AlunoStores.mensagem', context: context);
 
@@ -102,6 +125,20 @@ mixin _$AlunoStores on _AlunoStores, Store {
     return _$getAlunoAsyncAction.run(() => super.getAluno(tokens));
   }
 
+  late final _$_AlunoStoresActionController =
+      ActionController(name: '_AlunoStores', context: context);
+
+  @override
+  void setalunoInstanciado(bool value) {
+    final _$actionInfo = _$_AlunoStoresActionController.startAction(
+        name: '_AlunoStores.setalunoInstanciado');
+    try {
+      return super.setalunoInstanciado(value);
+    } finally {
+      _$_AlunoStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
@@ -109,7 +146,9 @@ curso: ${curso},
 user: ${user},
 aluno: ${aluno},
 isClicked: ${isClicked},
+alunoInstanciado: ${alunoInstanciado},
 mensagem: ${mensagem},
+getalunoInstanciado: ${getalunoInstanciado},
 getIsClicked: ${getIsClicked}
     ''';
   }

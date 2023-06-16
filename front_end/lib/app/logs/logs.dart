@@ -32,7 +32,7 @@ class _LogsState extends State<Logs> {
         if(appStores.getUserResponsavel){
           await responsavelStores.getResponsavel(alunoLoginStores.getTokens);
 
-          if(responsavelStores.responsavel?.nome != null){
+          if(responsavelStores.getResponsavelInstanciado){
             // ignore: use_build_context_synchronously
             Navigator.pushReplacement(context, 
               MaterialPageRoute(builder: (context) => const Home())

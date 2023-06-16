@@ -28,6 +28,17 @@ abstract class _AlunoStores with Store {
   @observable
   bool isClicked = false;
 
+  @observable
+  bool alunoInstanciado = false;
+
+  @action
+  void setalunoInstanciado(bool value){
+    alunoInstanciado = value;
+  }
+
+  @computed
+  bool get getalunoInstanciado => alunoInstanciado;
+
   @computed
   bool get getIsClicked => isClicked;
 
@@ -53,6 +64,7 @@ abstract class _AlunoStores with Store {
         curso: curso!,
         user: user!,
       );
+      setalunoInstanciado(true);
     } on RangeError{
       mensagem = "Nenhum aluno encontrado com esse CPF";
     }

@@ -152,6 +152,7 @@ class _BodyResponsavelState extends State<BodyResponsavel> {
                       onPressed: () async{
                         bool logout = await alunoLoginStores.apagaTokens();
                         if(!logout){
+                          responsavelStores.setResponsavelInstanciado(false);
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => const Logs())

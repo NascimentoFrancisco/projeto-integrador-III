@@ -83,16 +83,18 @@ class _BodyState extends State<Body> {
               const SizedBox(
                 height: 35,
               ),
-              Observer(
-                builder: (context){
-                  return Center(
-                    child: ElevatedButton(
-                      onPressed: alunoStores.aluno?.nome == null ? (){}:()async{
+              Center(
+                child: Observer(
+                  builder: (context){
+                    return ElevatedButton(
+                      onPressed: !alunoStores.alunoInstanciado ? (){}:()async{
                         alunoLoginStores.setTipoQrcode("Entrada");
                         await alunoLoginStores.atualizaTokenAccess();
+                        alunoLoginStores.setDadosQrCode();
+                        alunoLoginStores.countSeconds();
                         // ignore: use_build_context_synchronously
                         Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const GerarQrCode())
+                          MaterialPageRoute(builder: (context) => const GerarQrCodes())
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -106,9 +108,9 @@ class _BodyState extends State<Body> {
                           fontWeight: FontWeight.bold
                         ),
                       )
-                    ),
-                  );
-                }
+                    );
+                  },
+                ),
               ),
               const SizedBox(
                 height: 35,
@@ -118,11 +120,13 @@ class _BodyState extends State<Body> {
                   return Center(
                     child: ElevatedButton(
                       onPressed: alunoStores.aluno?.nome == null ? (){}:()async{
-                        alunoLoginStores.setTipoQrcode("Saida");
+                        alunoLoginStores.setTipoQrcode("Saída");
                         await alunoLoginStores.atualizaTokenAccess();
+                        alunoLoginStores.setDadosQrCode();
+                        alunoLoginStores.countSeconds();
                         // ignore: use_build_context_synchronously
                         Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const GerarQrCode())
+                          MaterialPageRoute(builder: (context) => const GerarQrCodes())
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -178,6 +182,7 @@ class _BodyState extends State<Body> {
                       onPressed: alunoStores.aluno?.nome == null ? (){}:()async{
                         bool logout = await alunoLoginStores.apagaTokens();
                         if(!logout){
+                          alunoStores.setalunoInstanciado(false);
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => const Logs())

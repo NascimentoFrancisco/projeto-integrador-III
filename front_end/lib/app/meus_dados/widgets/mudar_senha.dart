@@ -17,7 +17,9 @@ class MudarSenha extends StatefulWidget {
 
 class _MudarSenhaState extends State<MudarSenha> {
 
-  bool obscured = true;
+  bool obscuredSenhaAntiga = true;
+  bool obscuredSenhaNova = true;
+  bool obscuredSenhaConfirma = true;
   final textFieldFocusNode = FocusNode();
 
   TextEditingController senhaAntigaController = TextEditingController();
@@ -59,7 +61,7 @@ class _MudarSenhaState extends State<MudarSenha> {
                             height: 40,
                           ),
                           TextField(
-                            obscureText: obscured,
+                            obscureText: obscuredSenhaAntiga,
                             controller: senhaAntigaController,
                             decoration: InputDecoration(
                               filled: true,
@@ -72,9 +74,9 @@ class _MudarSenhaState extends State<MudarSenha> {
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.all(2),
                                 child: GestureDetector(
-                                  onTap: toggleObscured,
+                                  onTap: toggleObscuredSenhaAntiga,
                                   child: Icon(
-                                    obscured
+                                    obscuredSenhaAntiga
                                     ? Icons.visibility_rounded
                                     :Icons.visibility_off_rounded,
                                     size: 24,
@@ -104,7 +106,7 @@ class _MudarSenhaState extends State<MudarSenha> {
                             height: 20,
                           ),
                           TextField(
-                            obscureText: obscured,
+                            obscureText: obscuredSenhaNova,
                             controller: senhaController,
                             decoration: InputDecoration(
                               filled: true,
@@ -117,9 +119,9 @@ class _MudarSenhaState extends State<MudarSenha> {
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.all(2),
                                 child: GestureDetector(
-                                  onTap: toggleObscured,
+                                  onTap: toggleObscuredSenhaNova,
                                   child: Icon(
-                                    obscured
+                                    obscuredSenhaNova
                                     ? Icons.visibility_rounded
                                     :Icons.visibility_off_rounded,
                                     size: 24,
@@ -149,7 +151,7 @@ class _MudarSenhaState extends State<MudarSenha> {
                             height: 20,
                           ),
                           TextField(
-                            obscureText: obscured,
+                            obscureText: obscuredSenhaConfirma,
                             controller: senhaconfirmController,
                             decoration: InputDecoration(
                               filled: true,
@@ -162,9 +164,9 @@ class _MudarSenhaState extends State<MudarSenha> {
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.all(2),
                                 child: GestureDetector(
-                                  onTap: toggleObscured,
+                                  onTap: toggleObscuredSenhaConfirma,
                                   child: Icon(
-                                    obscured
+                                    obscuredSenhaConfirma
                                     ? Icons.visibility_rounded
                                     :Icons.visibility_off_rounded,
                                     size: 24,
@@ -275,9 +277,25 @@ class _MudarSenhaState extends State<MudarSenha> {
       ),
     );
   }
-  void toggleObscured() {
+  void toggleObscuredSenhaAntiga() {
     setState(() {
-      obscured = !obscured;
+      obscuredSenhaAntiga = !obscuredSenhaAntiga;
+      if (textFieldFocusNode.hasPrimaryFocus) return; 
+      textFieldFocusNode.canRequestFocus = false;     
+    });
+  }
+
+  void toggleObscuredSenhaNova() {
+    setState(() {
+      obscuredSenhaNova = !obscuredSenhaNova;
+      if (textFieldFocusNode.hasPrimaryFocus) return; 
+      textFieldFocusNode.canRequestFocus = false;     
+    });
+  }
+
+  void toggleObscuredSenhaConfirma() {
+    setState(() {
+      obscuredSenhaConfirma = !obscuredSenhaConfirma;
       if (textFieldFocusNode.hasPrimaryFocus) return; 
       textFieldFocusNode.canRequestFocus = false;     
     });

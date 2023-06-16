@@ -106,7 +106,8 @@ class _ResponsavelAlunosState extends State<ResponsavelAlunos> {
               onPressed: responsavelStores.getClickedBotao ? (){}: () async {
                 responsavelStores.setClickedBotao(true);
                 await alunoLoginStores.atualizaTokenAccess();
-                await responsavelStores.getHistoricoAluno(alunoLoginStores.getTokens, aluno);
+                responsavelStores.setIdAlunoHistoricoListado(aluno.id);
+                await responsavelStores.getHistoricoAluno(alunoLoginStores.getTokens, aluno.id);
                 responsavelStores.setClickedBotao(false);
                 // ignore: use_build_context_synchronously
                 Navigator.push(context,

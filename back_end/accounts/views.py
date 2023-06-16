@@ -1,3 +1,6 @@
+import pytz
+from datetime import datetime
+from django.utils import timezone
 from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
@@ -132,10 +135,28 @@ class GetAulonsPeloIdResponsavel(generics.ListAPIView):
         return Aluno.objects.filter(responsavel__id=self.kwargs["id"])
 
 
-class GetHistoricoAlunos(generics.ListAPIView):
+class GetHistoricoAlunos(APIView):
 
     permission_classes = [IsAuthenticated]
-    serializer_class = HistoricoSerializaer
 
-    def get_queryset(self):
-        return AlunoHistorico.objects.filter(aluno__id=self.kwargs['id'])
+    def get(self, request):
+        
+        # URL para ser usada assim
+        # http://127.0.0.1:8000/historico/?id=1&data_inicio=2023-06-10&data_final=2023-06-15
+        
+        id = request.GET.get("id")
+        data_inicio = request.GET.get("data_inicio")
+        data_final = request.GET.get("data_final")
+
+        if not data_inicio:
+            data_inicio = timezone.now() - timezone.timedelta(days=7)
+        
+        queryset = AlunoHistorico.objects.filter(aluno=id, criado_em__gte=data_inicio)
+
+        if data_final:
+            queryset = queryset.filter(criado_em__lte=data_final)
+        
+        serializer = HistoricoSerializaer(queryset, many=True)
+        return Response(serializer.data)
+    
+

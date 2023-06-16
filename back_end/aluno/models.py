@@ -30,8 +30,10 @@ class Aluno(models.Model):
 class AlunoHistorico(models.Model):
 
     criado_em = models.DateTimeField(auto_now_add=True)
-    tipo_movimentacao = models.CharField(max_length=15)
+    tipo_movimentacao = models.CharField(max_length=15)#Entrada ou saída
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.aluno.nome
+
+    

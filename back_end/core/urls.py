@@ -29,6 +29,11 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,    
 )
+
+from guarda.views import (
+    GetGuardaLogView, GuardaCreateView
+)
+
 router = routers.DefaultRouter()
 
 router.register(r'alunos', AlunoGetView)
@@ -49,5 +54,9 @@ urlpatterns = [
     path("responsavel-list/", ResponsavelGetViewLog.as_view(), name="list_responsavel_log"),
     path("responsavel-lists/", ResponsavelListView.as_view(), name="list_responsavel"),
 
-    path('historico/<int:id>/', GetHistoricoAlunos.as_view(), name='historico'),
+    path('historico/', GetHistoricoAlunos.as_view(), name='historico'),
+
+    path('guarda-create/', GuardaCreateView.as_view(), name='guarda_create'),
+    path('guarda-get/', GetGuardaLogView.as_view(), name='guarda_get'),
+
 ]

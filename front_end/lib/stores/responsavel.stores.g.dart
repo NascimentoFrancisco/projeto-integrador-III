@@ -9,6 +9,28 @@ part of 'responsavel.stores.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$ResponsavelStores on _ResponsavelStores, Store {
+  Computed<int>? _$getIdAlunoHistoricoListadoComputed;
+
+  @override
+  int get getIdAlunoHistoricoListado =>
+      (_$getIdAlunoHistoricoListadoComputed ??= Computed<int>(
+              () => super.getIdAlunoHistoricoListado,
+              name: '_ResponsavelStores.getIdAlunoHistoricoListado'))
+          .value;
+  Computed<bool>? _$getListaAtualizadaComputed;
+
+  @override
+  bool get getListaAtualizada => (_$getListaAtualizadaComputed ??=
+          Computed<bool>(() => super.getListaAtualizada,
+              name: '_ResponsavelStores.getListaAtualizada'))
+      .value;
+  Computed<bool>? _$getResponsavelInstanciadoComputed;
+
+  @override
+  bool get getResponsavelInstanciado => (_$getResponsavelInstanciadoComputed ??=
+          Computed<bool>(() => super.getResponsavelInstanciado,
+              name: '_ResponsavelStores.getResponsavelInstanciado'))
+      .value;
   Computed<bool>? _$getClickedBotaoComputed;
 
   @override
@@ -16,6 +38,22 @@ mixin _$ResponsavelStores on _ResponsavelStores, Store {
       (_$getClickedBotaoComputed ??= Computed<bool>(() => super.getClickedBotao,
               name: '_ResponsavelStores.getClickedBotao'))
           .value;
+
+  late final _$listaAtualizadaAtom =
+      Atom(name: '_ResponsavelStores.listaAtualizada', context: context);
+
+  @override
+  bool get listaAtualizada {
+    _$listaAtualizadaAtom.reportRead();
+    return super.listaAtualizada;
+  }
+
+  @override
+  set listaAtualizada(bool value) {
+    _$listaAtualizadaAtom.reportWrite(value, super.listaAtualizada, () {
+      super.listaAtualizada = value;
+    });
+  }
 
   late final _$clickedBotaoAtom =
       Atom(name: '_ResponsavelStores.clickedBotao', context: context);
@@ -30,6 +68,23 @@ mixin _$ResponsavelStores on _ResponsavelStores, Store {
   set clickedBotao(bool value) {
     _$clickedBotaoAtom.reportWrite(value, super.clickedBotao, () {
       super.clickedBotao = value;
+    });
+  }
+
+  late final _$responsavelInstanciadoAtom =
+      Atom(name: '_ResponsavelStores.responsavelInstanciado', context: context);
+
+  @override
+  bool get responsavelInstanciado {
+    _$responsavelInstanciadoAtom.reportRead();
+    return super.responsavelInstanciado;
+  }
+
+  @override
+  set responsavelInstanciado(bool value) {
+    _$responsavelInstanciadoAtom
+        .reportWrite(value, super.responsavelInstanciado, () {
+      super.responsavelInstanciado = value;
     });
   }
 
@@ -78,6 +133,23 @@ mixin _$ResponsavelStores on _ResponsavelStores, Store {
   set listaAlunos(List<Aluno> value) {
     _$listaAlunosAtom.reportWrite(value, super.listaAlunos, () {
       super.listaAlunos = value;
+    });
+  }
+
+  late final _$idAlunoHistoricoListadoAtom = Atom(
+      name: '_ResponsavelStores.idAlunoHistoricoListado', context: context);
+
+  @override
+  int get idAlunoHistoricoListado {
+    _$idAlunoHistoricoListadoAtom.reportRead();
+    return super.idAlunoHistoricoListado;
+  }
+
+  @override
+  set idAlunoHistoricoListado(int value) {
+    _$idAlunoHistoricoListadoAtom
+        .reportWrite(value, super.idAlunoHistoricoListado, () {
+      super.idAlunoHistoricoListado = value;
     });
   }
 
@@ -134,13 +206,47 @@ mixin _$ResponsavelStores on _ResponsavelStores, Store {
       AsyncAction('_ResponsavelStores.getHistoricoAluno', context: context);
 
   @override
-  Future<void> getHistoricoAluno(Map<String, dynamic> tokens, Aluno aluno) {
+  Future<void> getHistoricoAluno(Map<String, dynamic> tokens, int alunoId,
+      [DateTime? inicio, DateTime? fim]) {
     return _$getHistoricoAlunoAsyncAction
-        .run(() => super.getHistoricoAluno(tokens, aluno));
+        .run(() => super.getHistoricoAluno(tokens, alunoId, inicio, fim));
   }
 
   late final _$_ResponsavelStoresActionController =
       ActionController(name: '_ResponsavelStores', context: context);
+
+  @override
+  void setIdAlunoHistoricoListado(int value) {
+    final _$actionInfo = _$_ResponsavelStoresActionController.startAction(
+        name: '_ResponsavelStores.setIdAlunoHistoricoListado');
+    try {
+      return super.setIdAlunoHistoricoListado(value);
+    } finally {
+      _$_ResponsavelStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setListaAtualizada(bool value) {
+    final _$actionInfo = _$_ResponsavelStoresActionController.startAction(
+        name: '_ResponsavelStores.setListaAtualizada');
+    try {
+      return super.setListaAtualizada(value);
+    } finally {
+      _$_ResponsavelStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setResponsavelInstanciado(bool value) {
+    final _$actionInfo = _$_ResponsavelStoresActionController.startAction(
+        name: '_ResponsavelStores.setResponsavelInstanciado');
+    try {
+      return super.setResponsavelInstanciado(value);
+    } finally {
+      _$_ResponsavelStoresActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void limpaListaalunos() {
@@ -167,12 +273,18 @@ mixin _$ResponsavelStores on _ResponsavelStores, Store {
   @override
   String toString() {
     return '''
+listaAtualizada: ${listaAtualizada},
 clickedBotao: ${clickedBotao},
+responsavelInstanciado: ${responsavelInstanciado},
 responsavel: ${responsavel},
 user: ${user},
 listaAlunos: ${listaAlunos},
+idAlunoHistoricoListado: ${idAlunoHistoricoListado},
 listHistoricoAluno: ${listHistoricoAluno},
 mensagem: ${mensagem},
+getIdAlunoHistoricoListado: ${getIdAlunoHistoricoListado},
+getListaAtualizada: ${getListaAtualizada},
+getResponsavelInstanciado: ${getResponsavelInstanciado},
 getClickedBotao: ${getClickedBotao}
     ''';
   }

@@ -4,35 +4,16 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../widgets/botoes/botoes.dart';
 
-
-class GerarQrCode extends StatefulWidget {
-  const GerarQrCode({super.key});
+class GerarQrCodes extends StatefulWidget {
+  const GerarQrCodes({super.key});
 
 
   @override
-  State<GerarQrCode> createState() => _GerarQrCodeState();
+  State<GerarQrCodes> createState() => _GerarQrCodesState();
 }
 
-class _GerarQrCodeState extends State<GerarQrCode> {
-
-  
-  Map<String, dynamic> dados = {
-    "Tipo": "Entra ou saída",
-    "Token": "Aqui terá um token"
-  };
-
-  /* 
-  Aqui terá um código no método initState para gerar um jason para gerar o QRCode
-  */
-  @override
-  void initState() {
-    super.initState();
-
-    dados["Tipo"] = alunoLoginStores.tipoQrCode;
-    dados["Token"] = alunoLoginStores.tokens["access"].toString();
-  }
+class _GerarQrCodesState extends State<GerarQrCodes> {
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +25,62 @@ class _GerarQrCodeState extends State<GerarQrCode> {
               children: [
                 Observer(
                   builder: (context){
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 130.0, bottom: 130.0),
-                      child: BarcodeWidget(
-                        data: dados.toString(), 
-                        barcode: Barcode.qrCode(
-                          errorCorrectLevel: BarcodeQRCorrectionLevel.high,
+                    return Column(
+                      children: [
+                        if (alunoLoginStores.getDadosQrCodeValido)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30, bottom: 30),
+                            child: Text(
+                              "Contagem: ${alunoLoginStores.getcontSegundosQrcode} segundos restantes.",
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
+                          child: Text(
+                            "Registro de ${alunoLoginStores.getDadosQrCode["Tipo"]} na instituição.",
+                            style: const TextStyle(fontSize: 18),
+                          ),
                         ),
-                        width: 300,
-                        height: 300,
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 60.0, bottom: 80.0),
+                          child: alunoLoginStores.getDadosQrCodeValido ? 
+                          BarcodeWidget(
+                            data: alunoLoginStores.getDadosQrCode.toString(), 
+                            barcode: Barcode.qrCode(
+                              errorCorrectLevel: BarcodeQRCorrectionLevel.high,
+                            ),
+                            width: 300,
+                            height: 300,
+                          ):
+                          Column(
+                            children: [
+                              const ListTile(
+                                title: Text(
+                                  "QrCode expirado :(",
+                                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(
+                                  "Clique no botão abaixo para atualizar seu Qrcode.",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: IconButton(
+                                  onPressed: () async{
+                                    await alunoLoginStores.atualizaTokenAccess();
+                                    alunoLoginStores.setDadosQrCode();
+                                    alunoLoginStores.countSeconds();
+                                  }, 
+                                  icon: const Icon(Icons.refresh_rounded),
+                                  iconSize: 60,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     );
                   }
                 ),
@@ -63,7 +90,20 @@ class _GerarQrCodeState extends State<GerarQrCode> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        retornaBotaoVoltarParao(context)
+                        ElevatedButton(
+                          onPressed: (){
+                            alunoLoginStores.setDadosQrCodeValido(false);
+                            Navigator.of(context).pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red
+                          ),
+                          child: const Text("Voltar",
+                            style: TextStyle(
+                              fontSize: 28
+                            ),
+                          )
+                        )
                       ],
                     ),
                   ),

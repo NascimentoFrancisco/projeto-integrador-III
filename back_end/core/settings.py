@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'accounts',
     'aluno',
     'curso',
-    'responsavel'
+    'responsavel',
+    'guarda'
 ]
 
 
