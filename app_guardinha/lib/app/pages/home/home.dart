@@ -66,15 +66,11 @@ class _InicioState extends State<Inicio> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      child: /* appStores.getClicked ? 
-                                        const CircularProgressIndicator()
-                                      : */Text("Fazer Login",
-                                        style: TextStyle(
-                                          color: ColorsApp().textoBrancoPadrao,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                        ),
+                                    Text("Fazer Login",
+                                      style: TextStyle(
+                                        color: ColorsApp().textoBrancoPadrao,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold
                                       ),
                                     )
                                   ],

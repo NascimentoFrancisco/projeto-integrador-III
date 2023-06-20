@@ -195,6 +195,15 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
     return _$checkLoginAsyncAction.run(() => super.checkLogin());
   }
 
+  late final _$salvaTokensAsyncAction =
+      AsyncAction('_AlunoLoginStores.salvaTokens', context: context);
+
+  @override
+  Future<void> salvaTokens(String? access, String? refresh) {
+    return _$salvaTokensAsyncAction
+        .run(() => super.salvaTokens(access, refresh));
+  }
+
   late final _$apagaTokensAsyncAction =
       AsyncAction('_AlunoLoginStores.apagaTokens', context: context);
 
@@ -209,6 +218,45 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
   @override
   Future<bool> efetuaLogin(String cpf, String password) {
     return _$efetuaLoginAsyncAction.run(() => super.efetuaLogin(cpf, password));
+  }
+
+  late final _$atualizaTokenAccessAsyncAction =
+      AsyncAction('_AlunoLoginStores.atualizaTokenAccess', context: context);
+
+  @override
+  Future<void> atualizaTokenAccess() {
+    return _$atualizaTokenAccessAsyncAction
+        .run(() => super.atualizaTokenAccess());
+  }
+
+  late final _$mudaSenhaAsyncAction =
+      AsyncAction('_AlunoLoginStores.mudaSenha', context: context);
+
+  @override
+  Future<bool> mudaSenha(
+      String senhaAntiga, String senha, String confirmaSenha, Aluno aluno) {
+    return _$mudaSenhaAsyncAction
+        .run(() => super.mudaSenha(senhaAntiga, senha, confirmaSenha, aluno));
+  }
+
+  late final _$mudaSenhaResponsavelAsyncAction =
+      AsyncAction('_AlunoLoginStores.mudaSenhaResponsavel', context: context);
+
+  @override
+  Future<bool> mudaSenhaResponsavel(String senhaAntiga, String senha,
+      String confirmaSenha, Responsavel responsavel) {
+    return _$mudaSenhaResponsavelAsyncAction.run(() => super
+        .mudaSenhaResponsavel(senhaAntiga, senha, confirmaSenha, responsavel));
+  }
+
+  late final _$enviaEmailRedefenirSenhaAsyncAction = AsyncAction(
+      '_AlunoLoginStores.enviaEmailRedefenirSenha',
+      context: context);
+
+  @override
+  Future<bool> enviaEmailRedefenirSenha(String email) {
+    return _$enviaEmailRedefenirSenhaAsyncAction
+        .run(() => super.enviaEmailRedefenirSenha(email));
   }
 
   late final _$_AlunoLoginStoresActionController =
@@ -264,6 +312,17 @@ mixin _$AlunoLoginStores on _AlunoLoginStores, Store {
         name: '_AlunoLoginStores.setDadosQrCode');
     try {
       return super.setDadosQrCode();
+    } finally {
+      _$_AlunoLoginStoresActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void countSeconds() {
+    final _$actionInfo = _$_AlunoLoginStoresActionController.startAction(
+        name: '_AlunoLoginStores.countSeconds');
+    try {
+      return super.countSeconds();
     } finally {
       _$_AlunoLoginStoresActionController.endAction(_$actionInfo);
     }

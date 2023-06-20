@@ -1,7 +1,14 @@
-import 'package:app_guardinha/app/pages/home/home.dart';
+import 'package:app_guardinha/app/pages/logs/logs.dart';
+import 'package:app_guardinha/stores/guarda.stores.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+
+GuardaStores guardaStores = GuardaStores();
+
+void main()async{ 
+  WidgetsFlutterBinding.ensureInitialized(); 
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -17,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Inicio(),
+      home: Logs(),
     );
   }
 }

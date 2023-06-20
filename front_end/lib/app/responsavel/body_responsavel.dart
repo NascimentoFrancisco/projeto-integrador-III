@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:access_control/app/inicio/inicio.dart';
 import 'package:access_control/app/responsavel/meus_dados.dart';
 import 'package:access_control/app/responsavel/responsavelalunos/responsavel_alunos.dart';
@@ -94,7 +96,6 @@ class _BodyResponsavelState extends State<BodyResponsavel> {
                         await alunoLoginStores.atualizaTokenAccess();
                         await responsavelStores.getAlunoResponsavel(alunoLoginStores.getTokens);
                         responsavelStores.setClickedBotao(false);
-                        // ignore: use_build_context_synchronously
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const ResponsavelAlunos())
                         );
@@ -149,15 +150,65 @@ class _BodyResponsavelState extends State<BodyResponsavel> {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: () async{
-                        bool logout = await alunoLoginStores.apagaTokens();
-                        if(!logout){
-                          responsavelStores.setResponsavelInstanciado(false);
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => const Logs())
+                      onPressed: alunoStores.aluno?.nome == null ? (){}: (){
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                          return WillPopScope(
+                            onWillPop: () async => false, 
+                            child: AlertDialog(
+                              contentPadding: EdgeInsets.zero,
+                                backgroundColor: Colors.transparent,
+                                content: GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                    onTap: () {}, 
+                                    child: AlertDialog(
+                                      title: const Text('Logout'),
+                                      content: const Text('Você realmente deseja sair do sistema?'),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red,
+                                          ),
+                                          child: const Text('Cancelar'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        Observer(
+                                          builder: (context){
+                                            return ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: azulBotaoSucessoPadrao,
+                                              ),
+                                              onPressed: alunoLoginStores.getClickLogin ? (){}: () async{
+                                                alunoLoginStores.setClickLogin(true);
+                                                bool logout = await alunoLoginStores.apagaTokens();
+                                                if(!logout){
+                                                  responsavelStores.setResponsavelInstanciado(false);
+                                                  Navigator.of(context).pop();
+                                                  Navigator.pushReplacement(context,
+                                                    MaterialPageRoute(builder: (context) => const Logs())
+                                                  );
+                                                }
+                                                alunoLoginStores.setClickLogin(false);
+
+                                              },
+                                              child: alunoLoginStores.getClickLogin ?  
+                                              const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ):
+                                              const Text('Confirmar'),
+                                            );
+                                          }
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           );
-                        }
                       }, 
                       child: Text("Sair",
                         style: TextStyle(

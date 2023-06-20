@@ -45,8 +45,8 @@ class _GerarQrCodesState extends State<GerarQrCodes> {
                         Padding(
                           padding: const EdgeInsets.only(top: 60.0, bottom: 80.0),
                           child: alunoLoginStores.getDadosQrCodeValido ? 
-                          BarcodeWidget(
-                            data: alunoLoginStores.getDadosQrCode.toString(), 
+                          BarcodeWidget(/* String usada para gerar QRCode altrada */
+                            data: '{"Tipo":"${alunoLoginStores.getDadosQrCode["Tipo"]}","Token":"${alunoLoginStores.getDadosQrCode["Token"]}"}', 
                             barcode: Barcode.qrCode(
                               errorCorrectLevel: BarcodeQRCorrectionLevel.high,
                             ),

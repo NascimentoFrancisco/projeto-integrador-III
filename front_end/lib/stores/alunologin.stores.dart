@@ -110,6 +110,7 @@ abstract class _AlunoLoginStores with Store {
   }
 
   //Salvando tokens, somente se não nulos
+  @action
   Future<void> salvaTokens(String? access, String? refresh) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (access != null){
@@ -154,6 +155,7 @@ abstract class _AlunoLoginStores with Store {
     return alunoLogado;
   }
 
+  @action
   Future<void> atualizaTokenAccess()async{
     String url = "$urlRoot/api/token/refresh/";
     var body = {"refresh": getTokens["refresh"]};
@@ -166,6 +168,7 @@ abstract class _AlunoLoginStores with Store {
     }
   }
 
+  @action
   Future<bool> mudaSenha(String senhaAntiga, String senha, String confirmaSenha, Aluno aluno)async{
     if (senhaAntiga.isEmpty || senha.isEmpty || confirmaSenha.isEmpty){
       mensagem = "Nenhum dos campos podem ser vazios!";
@@ -205,6 +208,7 @@ abstract class _AlunoLoginStores with Store {
     return false;
   }
 
+  @action
   Future<bool> mudaSenhaResponsavel(String senhaAntiga, String senha, String confirmaSenha, Responsavel responsavel)async{
     if (senhaAntiga.isEmpty || senha.isEmpty || confirmaSenha.isEmpty){
       mensagem = "Nenhum dos campos podem ser vazios!";
@@ -244,7 +248,7 @@ abstract class _AlunoLoginStores with Store {
     return false;
   }
 
-
+  @action
   Future<bool> enviaEmailRedefenirSenha(String email)async{
     if (email.isEmpty){
       mensagem = "Campo de email vazio, insira um email.";

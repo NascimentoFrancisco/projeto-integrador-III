@@ -1,5 +1,8 @@
+
 import 'package:app_guardinha/app/colors/colors.dart';
+import 'package:app_guardinha/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_qr_bar_scanner/qr_bar_scanner_camera.dart';
 
 class LerQrCode extends StatefulWidget {
@@ -13,6 +16,7 @@ class _LerQrCodeState extends State<LerQrCode> {
 
   String? qrInfo = 'Scan a QR/Bar code';
   bool camState = false;
+  bool cliked = false;
 
   /* Função que receberá uma lógica de processamento da informção lida no QrCode */
   qrCallback(String? code) {
@@ -26,6 +30,8 @@ class _LerQrCodeState extends State<LerQrCode> {
   void initState() {
     super.initState();
     setState(() {
+      guardaStores.limpaMensagem();
+      guardaStores.setdadosEnviados(false);
       camState = true;
     });
   }
@@ -57,30 +63,51 @@ class _LerQrCodeState extends State<LerQrCode> {
         ),
       )
       :Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Text(
-                "Enviando informações!",
-                style: TextStyle(
-                  fontSize: 25,
+        child: Observer(builder: (context){
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Text(guardaStores.mensagem.isNotEmpty? 
+                  guardaStores.mensagem :
+                  "Enviando informações!",
+                  style: const TextStyle(
+                    fontSize: 25,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: /* CircularProgressIndicator(
-                color: ColorsApp().verdeContainerPadrao,
-              ) */Icon(
-                Icons.check_circle, 
-                color: ColorsApp().verdeContainerPadrao,
-                size: 70,
-              ),
-            )
-          ],
-        ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Column(
+                  children: [
+                    guardaStores.getdadosEnviados ?
+                      Icon(
+                        Icons.check_circle, 
+                        color: ColorsApp().verdeContainerPadrao,
+                        size: 70,
+                      )
+                      :
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorsApp().azulBotaoSucessoPadrao,
+                        ),
+                        onPressed: guardaStores.getClicado ? (){}:()async{
+                          guardaStores.setClicado(true);
+                           await guardaStores.enviaDadosQrCode(qrInfo!);
+                          guardaStores.setClicado(false);
+                        }, 
+                        child: guardaStores.getClicado ? 
+                        const CircularProgressIndicator(color: Colors.green,)
+                        :
+                        const Text("Enviar dados")
+                      )
+                  ],
+                )
+              )
+            ],
+          );
+        }),
       ),
 
       floatingActionButton: FloatingActionButton(
@@ -88,10 +115,14 @@ class _LerQrCodeState extends State<LerQrCode> {
         onPressed: () {
           if (camState == true) {
             setState(() {
+              guardaStores.limpaMensagem();
+              guardaStores.setdadosEnviados(false);
               camState = false;
             });
           } else {
             setState(() {
+              guardaStores.limpaMensagem();
+              guardaStores.setdadosEnviados(false);
               camState = true;
             });
           }

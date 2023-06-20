@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:app_guardinha/app/colors/colors.dart';
+import 'package:app_guardinha/main.dart';
 import 'package:flutter/material.dart';
 
 
@@ -208,7 +211,36 @@ class _MudarSenhaState extends State<MudarSenha> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 20),
                                   child: ElevatedButton(
-                                    onPressed: (){},
+                                    onPressed: ()async{
+                                      guardaStores.setClicado(true);
+                                      bool senhaMudada = await guardaStores.mudarSenha(
+                                        senhaAntigaController.text,
+                                        senhaController.text, 
+                                        senhaconfirmController.text
+                                      );
+                                      
+                                      if(senhaMudada){
+                                        senhaAntigaController.clear();
+                                        senhaController.clear(); 
+                                        senhaconfirmController.clear();
+                                      }
+
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(    
+                                          content: Text(guardaStores.mensagem,
+                                            style: TextStyle(
+                                              color: senhaMudada ? Colors.black : Colors.white
+                                            ),
+                                          ),
+                                          backgroundColor: senhaMudada ? Colors.greenAccent : Colors.redAccent,
+                                          action: SnackBarAction(
+                                            label: 'Fechar',
+                                            textColor: Colors.black,
+                                            onPressed: (){},
+                                          ),
+                                        )
+                                      );
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: ColorsApp().azulBotaoSucessoPadrao
                                     ), 

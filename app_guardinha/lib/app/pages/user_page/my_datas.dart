@@ -1,5 +1,6 @@
 import 'package:app_guardinha/app/colors/colors.dart';
 import 'package:app_guardinha/app/widgets/logo.dart';
+import 'package:app_guardinha/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -40,10 +41,10 @@ class _MeusDadosState extends State<MeusDados> {
                           ),
                         ),
 
-                        fazWidgetsDados("Nome:", "Francisco Leite do Nascimento"),
-                        fazWidgetsDados("CPF:", "00000000000"),
-                        fazWidgetsDados("Data de nasciemnto:", DateTime(1998, 10, 4)),
-                        fazWidgetsDados("Email:", "guardafrancisco@gmail.com"),
+                        fazWidgetsDados("Nome:", guardaStores.guarda!.nome),
+                        fazWidgetsDados("CPF:", guardaStores.guarda!.user.cpf),
+                        fazWidgetsDados("Data de nasciemnto:", guardaStores.guarda!.dataNascimento),
+                        fazWidgetsDados("Email:", guardaStores.guarda!.user.email),
                         
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 40.0, bottom: 20.0),

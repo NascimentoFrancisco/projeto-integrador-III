@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:app_guardinha/app/colors/colors.dart';
 import 'package:app_guardinha/app/pages/authentication/reset_password.dart';
-import 'package:app_guardinha/app/pages/user_page/user_page.dart';
+import 'package:app_guardinha/app/pages/logs/logs.dart';
+import 'package:app_guardinha/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -14,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  TextEditingController matriculaController = TextEditingController();
+  TextEditingController cpfController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
   bool obscured = true;
@@ -48,99 +51,95 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Center(
-                            child: Text('Área de login',
-                              style: TextStyle(
-                                color: ColorsApp().textoBrancoPadrao,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Center(
+                              child: Text('Área de login',
+                                style: TextStyle(
+                                  color: ColorsApp().textoBrancoPadrao,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold
+                                ),
                               ),
                             ),
-                          ),
-
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          TextField(
-                            controller: matriculaController,
-                            maxLength: 11,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: ColorsApp().textoBrancoPadrao,
-                              labelText: "CPF",
-                              labelStyle: const TextStyle(
-                                color:Colors.black
-                              ), 
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 0, 7, 0)
-                                ),
-                              ),
-                              enabledBorder:const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.black
-                                ),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 1
-                                ),
-                              ), 
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          TextField(
-                            controller: senhaController,
-                            obscureText: obscured,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: ColorsApp().textoBrancoPadrao,
-                              labelText: "Senha",
-                              labelStyle: const TextStyle(
-                                color:Colors.black
-                              ), 
-                              prefixIcon: const Icon(Icons.lock_rounded,color: Color.fromARGB(255, 6, 168, 90),size: 24), 
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: GestureDetector(
-                                  onTap: toggleObscured,
-                                  child: Icon(
-                                    obscured
-                                    ? Icons.visibility_rounded
-                                    :Icons.visibility_off_rounded,
-                                    size: 24,
-                                    color: const Color.fromARGB(255, 6, 168, 90),
+                          ),                          
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: TextField(
+                              controller: cpfController,
+                              maxLength: 11,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: ColorsApp().textoBrancoPadrao,
+                                labelText: "CPF",
+                                labelStyle: const TextStyle(
+                                  color:Colors.black
+                                ), 
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 0, 7, 0)
                                   ),
                                 ),
-                              ),
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 0, 7, 0)
+                                enabledBorder:const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black
+                                  ),
                                 ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 1
+                                  ),
+                                ), 
                               ),
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.black
-                                ),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 1
-                                ),
-                              ), 
                             ),
                           ),
-
-                          const SizedBox(
-                            height: 35,
+                          
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30, bottom: 35),
+                            child: TextField(
+                              controller: senhaController,
+                              obscureText: obscured,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: ColorsApp().textoBrancoPadrao,
+                                labelText: "Senha",
+                                labelStyle: const TextStyle(
+                                  color:Colors.black
+                                ), 
+                                prefixIcon: const Icon(Icons.lock_rounded,color: Color.fromARGB(255, 6, 168, 90),size: 24), 
+                                suffixIcon: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: GestureDetector(
+                                    onTap: toggleObscured,
+                                    child: Icon(
+                                      obscured
+                                      ? Icons.visibility_rounded
+                                      :Icons.visibility_off_rounded,
+                                      size: 24,
+                                      color: const Color.fromARGB(255, 6, 168, 90),
+                                    ),
+                                  ),
+                                ),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 0, 7, 0)
+                                  ),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 1
+                                  ),
+                                ), 
+                              ),
+                            ),
                           ),
                           Center(
                             child: TextButton(
@@ -159,37 +158,63 @@ class _LoginPageState extends State<LoginPage> {
                               )
                             ),
                           ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Observer(
-                                builder: (_){
-                                  return ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(context,
-                                        MaterialPageRoute(builder: ((context) => const HomeUser()))
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(255, 4, 57, 170),
-                                      minimumSize: const Size(140, 40)
-                                    ), 
-                                    child: /* alunoLoginStores.getClickLogin ? 
-                                      const CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ) : */ 
-                                      const Text("Entrar",
-                                      style: TextStyle(
-                                        fontSize: 25
-                                      ),
-                                    )
-                                  );
-                                }
-                              )
-                            ],
+                          
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30, bottom: 30),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Observer(
+                                  builder: (context){
+                                    return ElevatedButton(
+                                      onPressed: guardaStores.getClicado ? (){} : ()async{
+                                        FocusScope.of(context).requestFocus(FocusNode());
+                                                  
+                                        guardaStores.setClicado(true);
+                                        bool log = await guardaStores.efetuaLogin(cpfController.text, senhaController.text);
+                                        
+                                        if (log){
+                                          guardaStores.setClicado(false);
+                                          Navigator.pushReplacement(context,
+                                            MaterialPageRoute(builder: ((context) => const Logs()))
+                                          );
+                                        }else{
+                                          guardaStores.setClicado(false);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text(guardaStores.mensagem,
+                                                style: const TextStyle(color: Colors.white)
+                                              ),
+                                              backgroundColor: Colors.redAccent,
+                                              action: SnackBarAction(
+                                                label: 'Fechar',
+                                                textColor: Colors.black,
+                                                onPressed: (){},
+                                              ),
+                                            )
+                                          );
+                                        }
+                                        
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color.fromARGB(255, 4, 57, 170),
+                                        minimumSize: const Size(140, 40)
+                                      ), 
+                                      child: guardaStores.getClicado ? 
+                                        const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ) 
+                                        : 
+                                        const Text("Entrar",
+                                        style: TextStyle(
+                                          fontSize: 25
+                                        ),
+                                      )
+                                    );
+                                  }
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),

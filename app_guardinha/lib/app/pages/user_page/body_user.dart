@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:app_guardinha/app/colors/colors.dart';
-import 'package:app_guardinha/app/pages/home/home.dart';
+import 'package:app_guardinha/app/pages/logs/logs.dart';
 import 'package:app_guardinha/app/pages/user_page/my_datas.dart';
-import 'package:app_guardinha/app/pages/user_page/reset_password.dart';
+import 'package:app_guardinha/app/pages/user_page/change_password.dart';
 import 'package:app_guardinha/app/pages/user_page/scanner_grcode.dart';
 import 'package:app_guardinha/app/widgets/logo.dart';
+import 'package:app_guardinha/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -37,7 +40,7 @@ class _BodyUserPageState extends State<BodyUserPage> {
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 50, top: 8.0),
                 child: Observer(
                   builder: (context){
-                    return Text("Olá guardinha!",
+                    return Text(formataNome(guardaStores.guarda!.nome),
                       style: TextStyle(
                         color: ColorsApp().textoBrancoPadrao,
                         fontSize: 16,
@@ -55,11 +58,62 @@ class _BodyUserPageState extends State<BodyUserPage> {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: ()async{
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => const Inicio())
-                        );
+                      onPressed: () {showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return WillPopScope(
+                            onWillPop: () async => false, 
+                            child: AlertDialog(
+                              contentPadding: EdgeInsets.zero,
+                                backgroundColor: Colors.transparent,
+                                content: GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                    onTap: () {}, 
+                                    child: AlertDialog(
+                                      title: const Text('Logout'),
+                                      content: const Text('Você realmente deseja sair do sistema?'),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: ColorsApp().vermelhoVoltarErros,
+                                          ),
+                                          child: const Text('Cancelar'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        Observer(
+                                          builder: (context){
+                                            return ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: ColorsApp().azulBotaoSucessoPadrao,
+                                              ),
+                                              onPressed: guardaStores.getClicado ? (){}: () async{
+                                                guardaStores.setClicado(true);
+                                                bool logout = await guardaStores.apagaTokens();
+                                                if(logout){
+                                                  Navigator.of(context).pop();
+                                                  Navigator.pushReplacement(context,
+                                                    MaterialPageRoute(builder: (context) => const Logs())
+                                                  );
+                                                }
+                                                guardaStores.setClicado(false);
+                                              },
+                                              child: guardaStores.getClicado ?  
+                                              const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ):
+                                              const Text('Confirmar'),
+                                            );
+                                          }
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                       }, 
                       child: Text("Sair",
                         style: TextStyle(
@@ -109,6 +163,32 @@ class _BodyUserPageState extends State<BodyUserPage> {
           }
       ),
     );
+  }
+
+  String formataNome(String? nome){
+    if (nome == null){
+      return "Aguarde...";
+    }
+    String nomeFormatado= "";
+    List<String> nomelist = nome.split(" ");
+    if (nomelist[1] == "da" || nomelist[1] == "de" || nomelist[1] == "do"){
+      for(int index = 0; index < 3; index ++){
+        if(index == 0){
+          nomeFormatado += nomelist[index];
+        } else{
+          nomeFormatado += " ${nomelist[index]}";
+        }
+      }
+    }else{
+      for(int index = 0; index < 2; index ++){
+        if(index == 0){
+          nomeFormatado += nomelist[index];
+        } else{
+          nomeFormatado += " ${nomelist[index]}";
+        }
+      }
+    }
+    return "Olá, $nomeFormatado";
   }
 
 }

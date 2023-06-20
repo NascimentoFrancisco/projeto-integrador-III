@@ -36,7 +36,7 @@ class AlunoSerializer(serializers.ModelSerializer):
         
         user_data = validated_data.pop("user")
         password = user_data.pop("password")
-        user = CustomUser.objects.create(**user_data)
+        user: CustomUser = CustomUser.objects.create(**user_data)
         user.set_password(password)
         user.save()
         aluno =  Aluno.objects.create(user = user, **validated_data)

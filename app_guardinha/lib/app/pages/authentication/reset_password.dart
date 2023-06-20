@@ -1,5 +1,8 @@
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:app_guardinha/app/colors/colors.dart';
+import 'package:app_guardinha/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -121,7 +124,28 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 child: Observer(
                                   builder: (context){
                                     return ElevatedButton(
-                                      onPressed: (){},
+                                      onPressed: ()async {
+                                        guardaStores.setClicado(true);
+                                        bool emailEnviado = await guardaStores.enviaEmailRedefenirSenha(emailController.text);
+                                        if(emailEnviado){
+                                          guardaStores.setClicado(false);
+                                        }
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(guardaStores.mensagem,
+                                              style: TextStyle(
+                                                color: emailEnviado ? Colors.black : Colors.white
+                                              ),
+                                            ),
+                                            backgroundColor: emailEnviado ? Colors.greenAccent : Colors.redAccent,
+                                            action: SnackBarAction(
+                                              label: 'Fechar',
+                                              textColor: Colors.black,
+                                              onPressed: (){},
+                                            ),
+                                          )
+                                        );
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: ColorsApp().azulBotaoSucessoPadrao
                                       ), 

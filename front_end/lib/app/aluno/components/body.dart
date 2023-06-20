@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:access_control/app/aluno/components/gerar_qrcode/gerar_qrcode.dart';
 import 'package:access_control/app/logs/logs.dart';
 import 'package:access_control/app/meus_dados/widgets/mudar_senha.dart';
@@ -92,7 +94,7 @@ class _BodyState extends State<Body> {
                         await alunoLoginStores.atualizaTokenAccess();
                         alunoLoginStores.setDadosQrCode();
                         alunoLoginStores.countSeconds();
-                        // ignore: use_build_context_synchronously
+                        
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const GerarQrCodes())
                         );
@@ -124,7 +126,6 @@ class _BodyState extends State<Body> {
                         await alunoLoginStores.atualizaTokenAccess();
                         alunoLoginStores.setDadosQrCode();
                         alunoLoginStores.countSeconds();
-                        // ignore: use_build_context_synchronously
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const GerarQrCodes())
                         );
@@ -179,16 +180,65 @@ class _BodyState extends State<Body> {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: alunoStores.aluno?.nome == null ? (){}:()async{
-                        bool logout = await alunoLoginStores.apagaTokens();
-                        if(!logout){
-                          alunoStores.setalunoInstanciado(false);
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => const Logs())
-                          );
-                        }
-                        
+                      onPressed: alunoStores.aluno?.nome == null ? (){}: (){
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return WillPopScope(
+                            onWillPop: () async => false, 
+                            child: AlertDialog(
+                              contentPadding: EdgeInsets.zero,
+                                backgroundColor: Colors.transparent,
+                                content: GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                    onTap: () {}, 
+                                    child: AlertDialog(
+                                      title: const Text('Logout'),
+                                      content: const Text('Você realmente deseja sair do sistema?'),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red,
+                                          ),
+                                          child: const Text('Cancelar'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        Observer(
+                                          builder: (context){
+                                            return ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: azulBotaoSucessoPadrao,
+                                              ),
+                                              onPressed: alunoLoginStores.getClickLogin ? (){}: () async{
+                                                alunoLoginStores.setClickLogin(true);
+                                                bool logout = await alunoLoginStores.apagaTokens();
+                                                if(!logout){
+                                                  alunoStores.setalunoInstanciado(false);
+                                                  Navigator.of(context).pop();
+                                                  Navigator.pushReplacement(context,
+                                                    MaterialPageRoute(builder: (context) => const Logs())
+                                                  );
+                                                }
+                                                alunoLoginStores.setClickLogin(false);
+
+                                              },
+                                              child: alunoLoginStores.getClickLogin ?  
+                                              const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ):
+                                              const Text('Confirmar'),
+                                            );
+                                          }
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );  
                       }, 
                       child: Text("Sair",
                         style: TextStyle(

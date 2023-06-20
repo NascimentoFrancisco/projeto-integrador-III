@@ -19,8 +19,8 @@ from django.urls import path, include
 from rest_framework import routers
 from accounts.views import (
     AlunoCreateView, AlunoListView, AlunoGetView, AlunoGetViewLog,
-    ChangePasswordView, PasswordResetView, TokenVerificationView,
-    GetHistoricoAlunos, GetAulonsPeloIdResponsavel
+    ChangePasswordView, PasswordResetView, GetHistoricoAlunos, 
+    GetAulonsPeloIdResponsavel
 )
 from responsavel.views import (
     ResponsavelCreateView, ResponsavelGetViewLog, ResponsavelListView
@@ -34,6 +34,8 @@ from guarda.views import (
     GetGuardaLogView, GuardaCreateView
 )
 
+from aluno.views import CreateHistoricoAluno
+
 router = routers.DefaultRouter()
 
 router.register(r'alunos', AlunoGetView)
@@ -41,7 +43,6 @@ router.register(r'alunos', AlunoGetView)
 urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/token/verify/', TokenVerificationView.as_view(), name='token_verify'),
     path('change_password/<int:pk>/', ChangePasswordView.as_view(), name='auth_change_password'),
     path('reset-password/', PasswordResetView.as_view()),
     path('admin/', admin.site.urls),
@@ -59,4 +60,5 @@ urlpatterns = [
     path('guarda-create/', GuardaCreateView.as_view(), name='guarda_create'),
     path('guarda-get/', GetGuardaLogView.as_view(), name='guarda_get'),
 
+    path('create/historico/', CreateHistoricoAluno.as_view(), name='create_historico'),
 ]
