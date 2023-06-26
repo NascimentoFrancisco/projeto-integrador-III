@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
+from accounts.models import CustomUser
 from curso.models import Curso
 from responsavel.models import Responsavel
 # Create your models here.
@@ -34,6 +35,7 @@ class AlunoHistorico(models.Model):
     criado_em = models.DateTimeField(default=timezone.now)
     tipo_movimentacao = models.CharField(max_length=15)#Entrada ou Saída
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
         return f'{self.aluno.nome}, {self.tipo_movimentacao}'

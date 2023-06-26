@@ -150,7 +150,7 @@ class _BodyResponsavelState extends State<BodyResponsavel> {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: alunoStores.aluno?.nome == null ? (){}: (){
+                      onPressed: responsavelStores.responsavel?.nome == null ? (){}: (){
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {

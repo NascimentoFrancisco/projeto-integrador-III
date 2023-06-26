@@ -47,7 +47,7 @@ urlpatterns = [
     path('reset-password/', PasswordResetView.as_view()),
     path('admin/', admin.site.urls),
     path("", include(router.urls)),
-    path("create", AlunoCreateView.as_view(), name="create_aluno"),
+    path("create/", AlunoCreateView.as_view(), name="create_aluno"),
     path('aluno-responsavel/<int:id>/', GetAulonsPeloIdResponsavel.as_view(), name='get_aluno_id_responsavel'),
     path("alunos-list/", AlunoListView.as_view(), name="list_aluno"),
     path("aluno-list/", AlunoGetViewLog.as_view(), name="list_aluno_log"),

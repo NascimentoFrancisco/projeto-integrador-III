@@ -233,11 +233,12 @@ abstract class _GuardaStores with Store{
   Future<void> enviaDadosQrCode(String dados) async{
 
     mensagem = "";
-    
+    var headers={"Authorization": "Bearer ${tokens['access']}"};
+
     Map<String, dynamic> dadosJson = jsonDecode(dados);
     String url = "$urlRoot/create/historico/";
     var body = {"tipo_movimentacao": dadosJson["Tipo"], "token": dadosJson["Token"]};
-    http.Response response = await http.post(Uri.parse(url), body: body);
+    http.Response response = await http.post(Uri.parse(url), headers: headers, body: body);
 
     if (response.statusCode == 201){
       mensagem = "Dados enviados!";

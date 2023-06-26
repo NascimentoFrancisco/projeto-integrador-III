@@ -13,8 +13,10 @@ class SerializerCreateHistorico(serializers.ModelSerializer):
     def create(self, validated_data):
         token = validated_data.pop("token")
         aluno = self.get_aluno_by_token_user(token)
+        user = self.context['request'].user
         validated_data['aluno'] = aluno
-    
+        validated_data['user'] = user    
+        
         try:
             historico = AlunoHistorico.objects.create(**validated_data)
         except Exception as e:
@@ -29,5 +31,5 @@ class SerializerCreateHistorico(serializers.ModelSerializer):
             aluno = Aluno.objects.get(user__id=user_id)
             return aluno
         except Exception as e:
-            raise serializers.ValidationError({"Error":"Token inválido"})
+            raise serializers.ValidationError({"Error":"Aluno não encontrado"})
             

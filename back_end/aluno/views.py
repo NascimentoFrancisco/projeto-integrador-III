@@ -9,4 +9,4 @@ class CreateHistoricoAluno(generics.CreateAPIView):
 
     queryset = AlunoHistorico.objects.all()    
     serializer_class = SerializerCreateHistorico
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]

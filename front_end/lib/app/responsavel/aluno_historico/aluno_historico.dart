@@ -85,7 +85,7 @@ class _AlunoHistoricoState extends State<AlunoHistorico> {
                         context: context, 
                         initialDate: DateTime.now(), 
                         firstDate: DateTime(2011), 
-                        lastDate: DateTime(2101)
+                        lastDate: DateTime(2101),
                       );
 
                       if (pickeddate != null){
