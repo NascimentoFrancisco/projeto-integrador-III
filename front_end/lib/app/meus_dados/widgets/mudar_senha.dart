@@ -277,8 +277,15 @@ class _MudarSenhaState extends State<MudarSenha> {
       ),
     );
   }
+  
   void toggleObscuredSenhaAntiga() {
     setState(() {
+      if (!obscuredSenhaNova){
+        obscuredSenhaNova = !obscuredSenhaNova;
+      }
+      if(!obscuredSenhaConfirma){
+        obscuredSenhaConfirma = !obscuredSenhaConfirma;
+      }
       obscuredSenhaAntiga = !obscuredSenhaAntiga;
       if (textFieldFocusNode.hasPrimaryFocus) return; 
       textFieldFocusNode.canRequestFocus = false;     
@@ -287,6 +294,12 @@ class _MudarSenhaState extends State<MudarSenha> {
 
   void toggleObscuredSenhaNova() {
     setState(() {
+      if (!obscuredSenhaAntiga){
+        obscuredSenhaAntiga = !obscuredSenhaAntiga;
+      }
+      if(!obscuredSenhaConfirma){
+        obscuredSenhaConfirma = !obscuredSenhaConfirma;
+      }
       obscuredSenhaNova = !obscuredSenhaNova;
       if (textFieldFocusNode.hasPrimaryFocus) return; 
       textFieldFocusNode.canRequestFocus = false;     
@@ -295,6 +308,12 @@ class _MudarSenhaState extends State<MudarSenha> {
 
   void toggleObscuredSenhaConfirma() {
     setState(() {
+      if (!obscuredSenhaAntiga){
+        obscuredSenhaAntiga = !obscuredSenhaAntiga;
+      }
+      if(!obscuredSenhaNova){
+        obscuredSenhaNova = !obscuredSenhaNova;
+      }
       obscuredSenhaConfirma = !obscuredSenhaConfirma;
       if (textFieldFocusNode.hasPrimaryFocus) return; 
       textFieldFocusNode.canRequestFocus = false;     

@@ -33,14 +33,6 @@ class AlunoListView(generics.ListAPIView):
     serializer_class = AlunoListSerializer
 
 
-class AlunoGetView(viewsets.ModelViewSet):
-
-    permission_classes = [IsAuthenticated]
-    
-    queryset = Aluno.objects.all()
-    serializer_class = AlunoListSerializer
-
-
 class AlunoGetViewLog(generics.ListAPIView):
 
     permission_classes = [IsAuthenticated]

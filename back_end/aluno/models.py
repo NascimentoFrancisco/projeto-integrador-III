@@ -49,7 +49,7 @@ class AlunoHistorico(models.Model):
             saidas = AlunoHistorico.objects.filter(
                 aluno__id=self.aluno.id, criado_em__date=self.criado_em.date(), tipo_movimentacao=self.tipo_movimentacao
             )
-
+            print(f"Entradas: {entradas.count()}, Saídas: {saidas.count()}")
             if entradas.count() == saidas.count() or (entradas.count() + saidas.count()) == 0:
                 raise ValidationError({"Error":"Não é possível sair sem ter entrado anteriormente."})
         
@@ -60,7 +60,7 @@ class AlunoHistorico(models.Model):
             saidas = AlunoHistorico.objects.filter(
                 aluno__id=self.aluno.id, criado_em__date=self.criado_em.date(), tipo_movimentacao="Saída"
             )
-            
+            print(f"Entradas: {entradas.count()}, Saídas: {saidas.count()}")
             if entradas.count() < saidas.count() or entradas.count() > saidas.count():
                 raise ValidationError({"Error":"Há uma movimentação de saída pendente."})
             

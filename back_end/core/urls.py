@@ -15,10 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from django.urls import re_path as url
+from django.conf import settings
+from django.views.static import serve
 from rest_framework import routers
 from accounts.views import (
-    AlunoCreateView, AlunoListView, AlunoGetView, AlunoGetViewLog,
+    AlunoCreateView, AlunoListView, AlunoGetViewLog,
     ChangePasswordView, PasswordResetView, GetHistoricoAlunos, 
     GetAulonsPeloIdResponsavel
 )
@@ -36,17 +39,17 @@ from guarda.views import (
 
 from aluno.views import CreateHistoricoAluno
 
-router = routers.DefaultRouter()
-
-router.register(r'alunos', AlunoGetView)
+from .views import HomeView, LogoutUser
 
 urlpatterns = [
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
+    path('', HomeView.as_view(), name="home"),
+    path('logout/', LogoutUser.as_view(), name="home"),
+    path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('change_password/<int:pk>/', ChangePasswordView.as_view(), name='auth_change_password'),
     path('reset-password/', PasswordResetView.as_view()),
-    path('admin/', admin.site.urls),
-    path("", include(router.urls)),
     path("create/", AlunoCreateView.as_view(), name="create_aluno"),
     path('aluno-responsavel/<int:id>/', GetAulonsPeloIdResponsavel.as_view(), name='get_aluno_id_responsavel'),
     path("alunos-list/", AlunoListView.as_view(), name="list_aluno"),
